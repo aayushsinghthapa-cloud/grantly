@@ -1,7 +1,9 @@
 import { useMemo, useState } from 'react';
 import { Link } from 'react-router-dom';
-import { List, Radar } from 'lucide-react';
-import { Badge, Card, EmptyState, TabPanel, Tabs, buttonClasses } from '@/components/ui';
+import { CalendarPlus, List, Radar } from 'lucide-react';
+import { Badge, Button, Card, EmptyState, TabPanel, Tabs, buttonClasses } from '@/components/ui';
+import { downloadCalendar } from '@/lib/ics';
+import { toast } from '@/store/toast';
 import { UrgencyChip } from '@/components/scholarship/UrgencyChip';
 import { useTrackedItems } from '@/hooks/useMatches';
 import { useMediaQuery } from '@/hooks/useMediaQuery';
@@ -69,20 +71,43 @@ export function DeadlineRadar() {
             Your tracked applications due in the next {WINDOW} days
           </p>
         </div>
-        <Tabs
-          label="Radar view"
-          idBase={idBase}
-          value={active}
-          onChange={setView}
-          items={[
-            {
-              value: 'timeline',
-              label: 'Timeline',
-              icon: <Radar className="h-4 w-4" aria-hidden />,
-            },
-            { value: 'list', label: 'List', icon: <List className="h-4 w-4" aria-hidden /> },
-          ]}
-        />
+        <div className="flex flex-wrap items-center gap-2">
+          {items.length > 0 && (
+            <Button
+              variant="ghost"
+              size="sm"
+              leftIcon={<CalendarPlus className="h-4 w-4" aria-hidden />}
+              onClick={() => {
+                downloadCalendar(
+                  items.map((i) => i.scholarship),
+                  'grantly-deadlines.ics',
+                );
+                toast({
+                  title: `${items.length} deadline${items.length === 1 ? '' : 's'} exported`,
+                  description:
+                    'Open the .ics file to add them to Google, Apple or Outlook Calendar.',
+                  tone: 'success',
+                });
+              }}
+            >
+              Export to calendar
+            </Button>
+          )}
+          <Tabs
+            label="Radar view"
+            idBase={idBase}
+            value={active}
+            onChange={setView}
+            items={[
+              {
+                value: 'timeline',
+                label: 'Timeline',
+                icon: <Radar className="h-4 w-4" aria-hidden />,
+              },
+              { value: 'list', label: 'List', icon: <List className="h-4 w-4" aria-hidden /> },
+            ]}
+          />
+        </div>
       </div>
 
       {items.length === 0 ? (

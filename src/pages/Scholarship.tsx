@@ -1,7 +1,7 @@
 import { useMemo } from 'react';
 import { Link, useParams } from 'react-router-dom';
-import { ArrowLeft, Building2, CalendarClock, RefreshCw, Users } from 'lucide-react';
-import { Badge, Card } from '@/components/ui';
+import { ArrowLeft, Building2, CalendarClock, RefreshCw, Users, CalendarPlus } from 'lucide-react';
+import { Badge, Card, Button } from '@/components/ui';
 import { MatchRing } from '@/components/scholarship/MatchRing';
 import { UrgencyChip } from '@/components/scholarship/UrgencyChip';
 import { WhyYouMatch } from '@/components/scholarship/WhyYouMatch';
@@ -20,6 +20,7 @@ import { getSimilar } from '@/lib/similar';
 import { daysLeft, formatDeadline, urgencyFor } from '@/lib/deadline';
 import { amountSuffix, formatINR } from '@/lib/format';
 import { cn } from '@/lib/cn';
+import { downloadCalendar } from '@/lib/ics';
 import NotFoundPage from './NotFound';
 
 export default function ScholarshipPage() {
@@ -166,6 +167,24 @@ export default function ScholarshipPage() {
               <Link to="/compare" className="text-sm font-semibold text-primary hover:underline">
                 View comparison
               </Link>
+            )}
+            {days >= 0 && (
+              <Button
+                variant="secondary"
+                size="sm"
+                className="h-10"
+                leftIcon={<CalendarPlus className="h-4 w-4" aria-hidden />}
+                onClick={() => {
+                  downloadCalendar([s], `${s.id}-deadline.ics`);
+                  toast({
+                    title: 'Calendar file downloaded',
+                    description: 'Open it to add the deadline with a 3-day reminder.',
+                    tone: 'success',
+                  });
+                }}
+              >
+                Add to calendar
+              </Button>
             )}
           </div>
         </div>

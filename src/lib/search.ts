@@ -24,3 +24,19 @@ export function createScholarshipSearch(list: readonly Scholarship[]) {
     return new Set(fuse.search(q).map((r) => r.item.id));
   };
 }
+
+/** Ranked fuzzy search — best matches first, capped at `limit`. Used by the command palette. */
+export function createRankedScholarshipSearch(list: readonly Scholarship[]) {
+  const fuse = new Fuse(list, {
+    keys: [
+      { name: 'name', weight: 3 },
+      { name: 'provider', weight: 2 },
+      { name: 'categories', weight: 1.5 },
+      { name: 'eligibility.fields', weight: 1 },
+    ],
+    threshold: 0.3,
+    ignoreLocation: true,
+  });
+  return (query: string, limit = 6): Scholarship[] =>
+    fuse.search(query.trim(), { limit }).map((r) => r.item);
+}

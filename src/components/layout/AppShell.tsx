@@ -2,6 +2,7 @@ import { Suspense, useEffect, useRef } from 'react';
 import { Outlet, useLocation } from 'react-router-dom';
 import { motion } from 'framer-motion';
 import { TopNav } from './TopNav';
+import { CommandPalette } from '@/components/command/CommandPalette';
 import { BottomTabBar } from './BottomTabBar';
 import { Footer } from './Footer';
 import { PageSkeleton, Toaster } from '@/components/ui';
@@ -48,6 +49,7 @@ export function AppShell() {
       <Footer />
       <BottomTabBar />
       <Toaster />
+      <CommandPalette />
     </div>
   );
 }

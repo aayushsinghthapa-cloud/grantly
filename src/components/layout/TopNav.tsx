@@ -5,6 +5,8 @@ import { NAV_ITEMS } from './nav-items';
 import { buttonClasses } from '@/components/ui';
 import { cn } from '@/lib/cn';
 import { useAppStore } from '@/store/app';
+import { usePaletteStore } from '@/store/palette';
+import { Search } from 'lucide-react';
 
 const initials = (name: string) =>
   name
@@ -50,6 +52,22 @@ export function TopNav() {
           </ul>
         </nav>
         <div className="flex items-center gap-1">
+          <button
+            type="button"
+            onClick={() => usePaletteStore.getState().setOpen(true)}
+            aria-label="Search (Command K)"
+            aria-keyshortcuts="Meta+K Control+K"
+            className="flex h-10 items-center gap-2 rounded-xl px-2.5 text-sm text-muted transition-colors hover:bg-surface-2 hover:text-ink lg:border lg:border-border lg:bg-surface lg:pl-3 lg:pr-2"
+          >
+            <Search className="h-5 w-5 lg:h-4 lg:w-4" aria-hidden />
+            <span className="hidden lg:inline">Search</span>
+            <kbd
+              className="hidden rounded-md border border-border bg-surface-2 px-1.5 font-sans text-xs lg:inline"
+              aria-hidden
+            >
+              ⌘K
+            </kbd>
+          </button>
           <ThemeToggle />
           {/* Once a profile exists, the sign-up CTA becomes an avatar link to Profile. */}
           {name ? (

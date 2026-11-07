@@ -51,6 +51,13 @@ Most scholarship tools stop at "here are some scholarships". Grantly answers the
 - Shows the remaining **gap** against your real yearly cost (editable inline).
 - Suggests a greedy set of **eligible, still-open, untracked** scholarships ranked by `match score × amount` that would close the gap — and one click on **Start** moves a suggestion into Preparing, updating the meter live.
 
+### Extras
+
+- **⌘K / Ctrl+K command palette** — jump to any scholarship (fuzzy search, with match score and days left), any page, or run actions (switch theme, export deadlines, load the demo). Implements the WAI-ARIA combobox pattern: focus stays in the input, arrows move `aria-activedescendant`, Enter runs, Escape closes and restores focus.
+- **Calendar export (.ics)** — **Add to calendar** on any scholarship, or **Export to calendar** on the Deadline Radar for every tracked deadline. Each becomes an all-day event with a link back and a reminder 3 days before; works with Google, Apple and Outlook Calendar. The RFC 5545 output (text escaping, 75-octet line folding, CRLF) is unit-tested.
+
+![Command palette](docs/screenshots/palette.png)
+
 ## Screenshots
 
 | Discover                                                                            | Scholarship detail                                                                                         |
@@ -92,9 +99,9 @@ Accessibility was tested, not assumed:
 | Search      | **Fuse.js**                                                                         | Weighted fuzzy search across names, providers, categories and fields                    |
 | Dates       | **date-fns**                                                                        | Calendar-day deadline maths                                                             |
 | Icons       | **lucide-react**                                                                    | Consistent icon set, no emoji used as icons                                             |
-| Quality     | **Vitest**, **ESLint** (typescript-eslint, react-hooks, **jsx-a11y**), **Prettier** | 55 unit tests; lint must pass with zero errors                                          |
+| Quality     | **Vitest**, **ESLint** (typescript-eslint, react-hooks, **jsx-a11y**), **Prettier** | 59 unit tests; lint must pass with zero errors                                          |
 
-No UI kit. Every primitive (Button, Card, Badge, Chip, Input/Select, Dialog/Sheet, Tabs, Menu, Switch, ProgressRing, Tooltip, EmptyState, Skeleton, CountUp, Toaster) is built from scratch with Tailwind.
+No UI kit. Every primitive (Button, Card, Badge, Chip, Input/Select, Dialog/Sheet, Tabs, Menu, Switch, ProgressRing, CommandPalette, Tooltip, EmptyState, Skeleton, CountUp, Toaster) is built from scratch with Tailwind.
 
 ## Architecture
 
@@ -183,7 +190,7 @@ npm run dev          # http://localhost:5173
 | `npm run dev`     | Start the dev server                               |
 | `npm run build`   | Type-check and build for production into `dist/`   |
 | `npm run preview` | Serve the production build locally                 |
-| `npm test`        | Run the Vitest unit tests (55)                     |
+| `npm test`        | Run the Vitest unit tests (59)                     |
 | `npm run lint`    | Run ESLint, including accessibility rules          |
 | `npm run check`   | Typecheck + lint + test + build: the pre-push gate |
 
