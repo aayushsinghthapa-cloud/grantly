@@ -32,9 +32,10 @@ export function Tooltip({ content, children, className }: TooltipProps) {
       <span
         id={id}
         role="tooltip"
+        // display:none when closed (still readable via aria-describedby) so it never affects layout.
         className={cn(
-          'absolute bottom-full left-1/2 z-50 mb-2 w-64 -translate-x-1/2 rounded-xl border border-border bg-ink px-3 py-2 text-left text-xs font-normal leading-relaxed text-bg shadow-lift transition-opacity',
-          open ? 'opacity-100' : 'pointer-events-none opacity-0',
+          'absolute bottom-full left-0 z-50 mb-2 w-64 max-w-[calc(100vw-2rem)] rounded-xl border border-border bg-ink px-3 py-2 text-left text-xs font-normal normal-case leading-relaxed tracking-normal text-bg shadow-lift',
+          !open && 'hidden',
         )}
       >
         {content}

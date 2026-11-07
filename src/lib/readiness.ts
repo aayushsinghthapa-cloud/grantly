@@ -41,3 +41,6 @@ export function getReadiness(
   const percent = total === 0 ? 100 : Math.round((ready.length / total) * 100);
   return { ready, missing, expired, total, percent, complete: missing.length === 0 };
 }
+
+/** Stable DOM id for a document's card in the Vault, e.g. "doc-income-certificate". */
+export const docAnchor = (doc: DocType): string => `doc-${doc.toLowerCase().replace(/\s+/g, '-')}`;
