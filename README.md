@@ -7,7 +7,7 @@
 A scholarship co-pilot that finds what you qualify for, explains why in plain language,<br/>
 walks you through every application, and shows how much of your year is actually funded.
 
-**[Live demo](https://REPLACE-WITH-VERCEL-URL)** · **[Source](https://github.com/REPLACE-WITH-REPO)** · Built for _THE OUTPOST_ by Frontend Arena
+**[Live demo](https://REPLACE-WITH-VERCEL-URL)** · **[Source](https://github.com/aayushsinghthapa-cloud/grantly)** · Built for _THE OUTPOST_ by Frontend Arena
 
 ![Grantly dashboard showing the Funding Gap Meter, quick stats and Action needed list](docs/screenshots/dashboard.png)
 
