@@ -1,0 +1,101 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+/* Design tokens — RGB channels so Tailwind opacity modifiers work.
+   All text/background pairs checked for WCAG AA (4.5:1 body, 3:1 large/UI). */
+@layer base {
+  :root {
+    --bg: 247 245 240; /* #F7F5F0 warm paper */
+    --surface: 255 255 255;
+    --surface-2: 241 238 230;
+    --ink: 20 33 61; /* #14213D */
+    --muted: 91 100 117; /* #5B6475 */
+    --border: 228 224 214; /* #E4E0D6 */
+    --primary: 31 111 92; /* #1F6F5C deep emerald */
+    --primary-fg: 255 255 255;
+    --primary-soft: 227 240 236;
+    --accent: 242 169 0; /* #F2A900 marigold — fills only, never body text on light */
+    --accent-fg: 20 33 61;
+    --accent-soft: 253 241 211;
+    --danger: 194 65 12; /* #C2410C */
+    --danger-soft: 251 233 225;
+    --success: 21 128 61; /* #15803D */
+    --success-soft: 227 243 232;
+    --warning: 146 64 14; /* amber text, AA on warning-soft */
+    --warning-soft: 254 243 199;
+    color-scheme: light;
+  }
+
+  .dark {
+    --bg: 15 20 32; /* #0F1420 */
+    --surface: 23 29 43; /* #171D2B */
+    --surface-2: 30 37 54;
+    --ink: 236 239 244; /* #ECEFF4 */
+    --muted: 154 163 181;
+    --border: 42 50 69; /* #2A3245 */
+    --primary: 63 191 155; /* #3FBF9B */
+    --primary-fg: 15 20 32;
+    --primary-soft: 22 51 45;
+    --accent: 245 184 46; /* #F5B82E */
+    --accent-fg: 15 20 32;
+    --accent-soft: 58 46 18;
+    --danger: 249 115 80;
+    --danger-soft: 59 31 26;
+    --success: 74 222 128;
+    --success-soft: 21 48 31;
+    --warning: 251 191 36;
+    --warning-soft: 58 46 18;
+    color-scheme: dark;
+  }
+
+  html {
+    -webkit-text-size-adjust: 100%;
+    text-rendering: optimizeLegibility;
+  }
+
+  body {
+    @apply bg-bg font-sans text-ink antialiased;
+    font-feature-settings: 'cv11', 'ss01';
+  }
+
+  h1,
+  h2,
+  h3 {
+    @apply font-display tracking-tight;
+    font-optical-sizing: auto;
+  }
+
+  :focus-visible {
+    @apply outline-none ring-2 ring-primary ring-offset-2 ring-offset-bg;
+  }
+
+  ::selection {
+    @apply bg-accent/40 text-ink;
+  }
+
+  dialog::backdrop {
+    background: rgb(15 20 32 / 0.5);
+    backdrop-filter: blur(2px);
+  }
+}
+
+@layer components {
+  .container-page {
+    @apply mx-auto w-full max-w-content px-4 sm:px-6 lg:px-8;
+  }
+  .tabular {
+    font-variant-numeric: tabular-nums;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
+  }
+}
