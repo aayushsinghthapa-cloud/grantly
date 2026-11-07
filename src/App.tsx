@@ -14,23 +14,27 @@ const Vault = lazy(() => import('@/pages/Vault'));
 const Profile = lazy(() => import('@/pages/Profile'));
 const NotFound = lazy(() => import('@/pages/NotFound'));
 
-const router = createBrowserRouter([
-  {
-    element: <AppShell />,
-    children: [
-      { path: '/', element: <Landing /> },
-      { path: '/onboarding', element: <Onboarding /> },
-      { path: '/discover', element: <Discover /> },
-      { path: '/scholarship/:id', element: <Scholarship /> },
-      { path: '/compare', element: <Compare /> },
-      { path: '/dashboard', element: <Dashboard /> },
-      { path: '/tracker', element: <Tracker /> },
-      { path: '/vault', element: <Vault /> },
-      { path: '/profile', element: <Profile /> },
-      { path: '*', element: <NotFound /> },
-    ],
-  },
-]);
+const router = createBrowserRouter(
+  [
+    {
+      element: <AppShell />,
+      children: [
+        { path: '/', element: <Landing /> },
+        { path: '/onboarding', element: <Onboarding /> },
+        { path: '/discover', element: <Discover /> },
+        { path: '/scholarship/:id', element: <Scholarship /> },
+        { path: '/compare', element: <Compare /> },
+        { path: '/dashboard', element: <Dashboard /> },
+        { path: '/tracker', element: <Tracker /> },
+        { path: '/vault', element: <Vault /> },
+        { path: '/profile', element: <Profile /> },
+        { path: '*', element: <NotFound /> },
+      ],
+    },
+  ],
+  // Matches Vite's `base`, so routes work under /grantly/ on GitHub Pages and at / elsewhere.
+  { basename: import.meta.env.BASE_URL.replace(/\/$/, '') || '/' },
+);
 
 export default function App() {
   return <RouterProvider router={router} />;

@@ -72,7 +72,7 @@ export function DocumentReadiness({ scholarship }: { scholarship: Scholarship })
                     : {isReady ? 'ready' : isExpired ? 'expired' : 'missing'}
                   </span>
                   {isExpired && (
-                    <span className="block text-xs text-danger">Expired — renew it</span>
+                    <span className="block text-xs text-danger">Expired, renew it</span>
                   )}
                 </span>
               </span>

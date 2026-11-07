@@ -87,7 +87,9 @@ export function buildDeadlineCalendar(
 
 /** Browser-only: trigger a download of the calendar file. */
 export function downloadCalendar(scholarships: readonly Scholarship[], filename: string): void {
-  const ics = buildDeadlineCalendar(scholarships, { origin: window.location.origin });
+  // Include the deploy base path (e.g. /grantly on GitHub Pages) so links back resolve.
+  const origin = window.location.origin + import.meta.env.BASE_URL.replace(/\/$/, '');
+  const ics = buildDeadlineCalendar(scholarships, { origin });
   const url = URL.createObjectURL(new Blob([ics], { type: 'text/calendar;charset=utf-8' }));
   const a = Object.assign(document.createElement('a'), { href: url, download: filename });
   document.body.appendChild(a);

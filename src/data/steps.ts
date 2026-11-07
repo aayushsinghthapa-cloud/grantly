@@ -11,7 +11,7 @@ export function governmentPortalSteps(portal: string, extra?: ApplicationStep): 
     {
       title: `Register on the ${portal}`,
       detail:
-        'Create an account using your mobile number and Aadhaar. Write down your application ID — you will need it to log in and track status.',
+        'Create an account using your mobile number and Aadhaar. Write down your application ID. You will need it to log in and track status.',
     },
     {
       title: 'Fill in the application form',
@@ -132,7 +132,7 @@ export function talentSteps(kind: 'sports' | 'arts', body: string): ApplicationS
       title: isSports ? 'Collect your sports certificates' : 'Build a portfolio',
       detail: isSports
         ? 'Gather certificates from district, state or national-level competitions from the last three years.'
-        : 'Select 8–12 of your strongest pieces. Quality beats quantity — include a short note on each work.',
+        : 'Select 8–12 of your strongest pieces. Quality beats quantity: include a short note on each work.',
     },
     {
       title: isSports ? 'Get a letter from your coach' : 'Write an artist statement',

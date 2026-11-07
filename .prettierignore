@@ -1,3 +1,4 @@
 dist
 node_modules
 package-lock.json
+src/vendor/scrollcraft/scrollcraft.js

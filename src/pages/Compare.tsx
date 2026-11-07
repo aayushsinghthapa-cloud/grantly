@@ -39,7 +39,7 @@ const ROWS: Row[] = [
     label: 'Match score',
     needsProfile: true,
     key: (c) => String(c.match?.score),
-    render: (c) => (c.match ? `${c.match.score}%` : '—'),
+    render: (c) => (c.match ? `${c.match.score}%` : 'No profile'),
     best: { get: (c) => c.match?.score ?? null, prefer: 'max' },
   },
   {
@@ -254,7 +254,7 @@ export default function ComparePage() {
             <tr className="border-b border-border">
               <th
                 scope="col"
-                className="sticky left-0 z-10 w-40 bg-surface p-4 align-bottom text-xs font-semibold uppercase tracking-wider text-muted"
+                className="sticky left-0 z-10 w-40 bg-surface p-4 align-bottom text-[13px] font-medium text-muted"
               >
                 Scholarship
               </th>

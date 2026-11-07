@@ -1,0 +1,96 @@
+/*
+ * Device rules from the scrollcraft engine stylesheet (MIT, see src/vendor/scrollcraft/LICENSE),
+ * scoped to `.sc-root` so they only apply where the engine is mounted. The engine's global
+ * resets (body, html smooth-scroll, img) are intentionally left out: the app already owns those.
+ * Tokens map onto Grantly's own design tokens, so light and dark themes just work.
+ */
+.sc-root {
+  --sc-canvas: rgb(var(--bg));
+  --sc-ink: rgb(var(--ink));
+  --sc-ink-soft: rgb(var(--muted));
+  --sc-accent: rgb(var(--primary));
+  --sc-ease-out: cubic-bezier(0.23, 1, 0.32, 1);
+  --sc-z-stage: 1;
+  --sc-z-copy: 20;
+}
+
+/* Pinned acts: the engine sizes the act and sticks its stage. */
+.sc-root .sc-act--pinned {
+  position: relative;
+}
+.sc-root .sc-stage {
+  position: sticky;
+  top: 0;
+  height: 100vh;
+  height: 100svh;
+  overflow: clip;
+  z-index: var(--sc-z-stage);
+}
+
+/* Cue pre-paint state; the engine writes opacity/transform inline once ready. */
+.sc-root [data-sc-cue] {
+  opacity: 0;
+  will-change: opacity, transform;
+}
+.sc-ready .sc-root [data-sc-cue] {
+  transition: none;
+}
+
+/* Horizontal rail */
+.sc-root [data-sc-pan] {
+  display: flex;
+  will-change: transform;
+}
+
+/* Reveal + parallax */
+.sc-root [data-sc-reveal] {
+  will-change: clip-path;
+}
+.sc-root [data-sc-parallax] {
+  will-change: transform;
+}
+
+/* Flow reveal: fires once on entry. 14px rise, 620ms, ease-out. */
+.sc-root [data-sc-in],
+.sc-root [data-sc-stagger] > * {
+  opacity: 0;
+  transform: translate3d(0, 14px, 0);
+  transition:
+    opacity 620ms var(--sc-ease-out),
+    transform 620ms var(--sc-ease-out);
+}
+.sc-root [data-sc-in].sc-in,
+.sc-root [data-sc-stagger] > .sc-in {
+  opacity: 1;
+  transform: none;
+}
+
+/* Pointer devices */
+.sc-root [data-sc-tilt] {
+  transform-style: preserve-3d;
+  will-change: transform;
+}
+
+/* Reduced motion: fewer and gentler, not zero. Opacity that carries comprehension stays;
+   every position change goes. The rail becomes an ordinary scroll region. */
+@media (prefers-reduced-motion: reduce) {
+  .sc-root [data-sc-in],
+  .sc-root [data-sc-stagger] > * {
+    transform: none;
+    transition-duration: 220ms;
+  }
+  .sc-root [data-sc-parallax],
+  .sc-root [data-sc-pan],
+  .sc-root [data-sc-tilt] {
+    transform: none !important;
+  }
+  .sc-root [data-sc-reveal] {
+    clip-path: none !important;
+  }
+  .sc-root [data-sc-act='pan'] .sc-stage {
+    overflow-x: auto;
+    overflow-y: hidden;
+    scroll-snap-type: x proximity;
+    overscroll-behavior-x: contain;
+  }
+}

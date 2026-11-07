@@ -28,13 +28,15 @@ export default {
         warning: { DEFAULT: token('warning'), soft: token('warning-soft') },
       },
       fontFamily: {
-        display: ['Fraunces', ...defaultTheme.fontFamily.serif],
-        sans: ['Inter', ...defaultTheme.fontFamily.sans],
+        // One family. Geist: neutral and precise without being the default every generated page reaches for.
+        display: ['Geist', '-apple-system', 'BlinkMacSystemFont', ...defaultTheme.fontFamily.sans],
+        sans: ['Geist', '-apple-system', 'BlinkMacSystemFont', ...defaultTheme.fontFamily.sans],
       },
-      borderRadius: { '2xl': '1rem', '3xl': '1.5rem' },
+      borderRadius: { '2xl': '1.125rem', '3xl': '1.75rem' },
+      transitionTimingFunction: { apple: 'cubic-bezier(0.23, 1, 0.32, 1)' },
       boxShadow: {
-        soft: '0 1px 2px rgb(20 33 61 / 0.04), 0 4px 16px -4px rgb(20 33 61 / 0.08)',
-        lift: '0 2px 4px rgb(20 33 61 / 0.06), 0 12px 32px -8px rgb(20 33 61 / 0.16)',
+        soft: '0 1px 2px rgb(0 0 0 / 0.04), 0 2px 8px -2px rgb(0 0 0 / 0.05)',
+        lift: '0 2px 6px rgb(0 0 0 / 0.04), 0 16px 40px -12px rgb(0 0 0 / 0.14)',
       },
       maxWidth: { content: '80rem' },
       keyframes: {

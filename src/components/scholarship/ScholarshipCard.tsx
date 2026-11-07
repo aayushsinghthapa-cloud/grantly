@@ -57,7 +57,7 @@ export const ScholarshipCard = memo(function ScholarshipCard({
     <article
       aria-labelledby={titleId}
       className={cn(
-        'group relative flex h-full flex-col rounded-2xl border border-border bg-surface p-5 transition-all',
+        'group relative flex h-full flex-col rounded-2xl bg-surface p-5 shadow-soft ring-1 ring-border/70 transition-[transform,box-shadow] duration-300 ease-apple',
         'focus-within:shadow-lift hover:-translate-y-0.5 hover:shadow-lift',
         inCompare && 'ring-2 ring-primary',
       )}

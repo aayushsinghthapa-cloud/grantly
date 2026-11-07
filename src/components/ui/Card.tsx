@@ -10,7 +10,7 @@ export function Card({ as: Tag = 'div', interactive, className, ...props }: Card
   return (
     <Tag
       className={cn(
-        'rounded-2xl border border-border bg-surface',
+        'rounded-2xl bg-surface shadow-soft ring-1 ring-border/70',
         interactive && 'transition-shadow focus-within:shadow-lift hover:shadow-lift',
         className,
       )}

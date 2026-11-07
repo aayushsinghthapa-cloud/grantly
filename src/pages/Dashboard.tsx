@@ -36,7 +36,7 @@ export default function DashboardPage() {
         <EmptyState
           icon={<Compass className="h-6 w-6" />}
           title="Let’s set up your profile first"
-          description="Your dashboard shows your funding gap, deadlines and next actions — all personalised to your profile."
+          description="Your dashboard shows your funding gap, deadlines and next actions, all personalised to your profile."
           action={
             <div className="flex flex-wrap justify-center gap-3">
               <Link to="/onboarding" className={buttonClasses('primary')}>
@@ -78,7 +78,7 @@ export default function DashboardPage() {
         description={
           dueThisWeek > 0
             ? `You have ${dueThisWeek} application${dueThisWeek === 1 ? '' : 's'} due this week. Let’s get them over the line.`
-            : 'No deadlines this week — a good moment to line up your next applications.'
+            : 'No deadlines this week. A good moment to line up your next applications.'
         }
         actions={
           <Link to="/discover?eligible=1" className={buttonClasses('secondary')}>

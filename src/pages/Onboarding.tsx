@@ -1,4 +1,5 @@
 import { useEffect, useRef, useState, type FormEvent, type ReactNode } from 'react';
+import { useLocation } from 'react-router-dom';
 import { motion, AnimatePresence } from 'framer-motion';
 import { ArrowLeft, ArrowRight, Check, Lock, Wand2 } from 'lucide-react';
 import { Button, Card, Chip, Input, Select } from '@/components/ui';
@@ -38,9 +39,17 @@ export default function OnboardingPage() {
   const setProfile = useAppStore((s) => s.setProfile);
   const loadDemo = useAppStore((s) => s.loadDemo);
 
-  const [draft, setDraft] = useState<Draft>(() =>
-    existing ? draftFromProfile(existing) : EMPTY_DRAFT,
-  );
+  // Answers typed into the landing page's "Start with two answers" form arrive as router state.
+  const prefill = (useLocation().state as { prefill?: Partial<Draft> } | null)?.prefill;
+  const [draft, setDraft] = useState<Draft>(() => {
+    const base = existing ? draftFromProfile(existing) : EMPTY_DRAFT;
+    if (!prefill) return base;
+    return {
+      ...base,
+      ...(prefill.level ? { level: prefill.level } : {}),
+      ...(prefill.percentage ? { percentage: prefill.percentage } : {}),
+    };
+  });
   const [step, setStep] = useState(0);
   const [errors, setErrors] = useState<Errors>({});
   const [done, setDone] = useState<StudentProfile | null>(null);
@@ -108,18 +117,15 @@ export default function OnboardingPage() {
     <div className="container-page max-w-3xl py-8 sm:py-12">
       <div className="flex flex-col gap-4 sm:flex-row sm:items-end sm:justify-between">
         <div>
-          <p className="mb-2 text-xs font-semibold uppercase tracking-[0.14em] text-primary">
-            Your eligibility profile
-          </p>
           <h1 className="text-3xl font-semibold sm:text-4xl">
             {existing ? 'Update your profile' : 'Let’s find your scholarships'}
           </h1>
           <p className="mt-2 text-muted">
-            Four quick steps. Fill this in once — every scholarship personalises to it.
+            Four quick steps. Fill this in once and every scholarship personalises to it.
           </p>
         </div>
         <Button
-          variant="accent"
+          variant="secondary"
           onClick={onDemo}
           leftIcon={<Wand2 className="h-4 w-4" aria-hidden />}
         >
@@ -311,7 +317,7 @@ export default function OnboardingPage() {
                     What kinds of scholarships interest you?
                   </legend>
                   <p id={`${fieldId('interests')}-hint`} className="mt-1 text-xs text-muted">
-                    Pick as many as you like — these boost your match scores.
+                    Pick as many as you like. These boost your match scores.
                   </p>
                   <div className="mt-3 flex flex-wrap gap-2">
                     {CATEGORIES.map((c, i) => (

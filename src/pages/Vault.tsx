@@ -50,7 +50,7 @@ export default function VaultPage() {
       <PageHeader
         eyebrow="Document vault"
         title="Your documents, ready once"
-        description="Mark what you already have. Every scholarship’s readiness updates instantly — no uploads, nothing leaves your device."
+        description="Mark what you already have. Every scholarship’s readiness updates instantly. No uploads, nothing leaves your device."
       />
 
       <Card className="grid grid-cols-1 gap-6 p-5 sm:p-6 md:grid-cols-[auto_minmax(0,1fr)] md:items-center">
@@ -186,7 +186,7 @@ export default function VaultPage() {
                         onChange={(e) =>
                           setDoc(doc, { ...entry, expiry: e.target.value || undefined })
                         }
-                        error={expired ? 'This date has passed — renew it.' : undefined}
+                        error={expired ? 'This date has passed. Renew it.' : undefined}
                         className="h-10 text-sm"
                       />
                       <Input

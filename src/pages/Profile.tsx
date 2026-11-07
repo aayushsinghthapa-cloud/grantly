@@ -351,7 +351,7 @@ function Settings() {
         }
       >
         <p className="text-sm text-muted">
-          There’s no undo — but you can always start again in about a minute.
+          There’s no undo, but you can always start again in about a minute.
         </p>
       </Dialog>
     </aside>

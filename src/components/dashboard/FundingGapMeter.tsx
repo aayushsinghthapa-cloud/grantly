@@ -33,7 +33,7 @@ const SEGMENT_META: Record<
     label: 'Saved',
     bar: '',
     dot: 'border-2 border-accent/60',
-    hint: 'Not started — not counted',
+    hint: 'Not started, not counted',
   },
   gap: {
     label: 'Gap',
@@ -89,9 +89,9 @@ export function FundingGapMeter() {
           <div>
             <h2
               id="gap-heading"
-              className="flex items-center gap-2 font-sans text-sm font-semibold uppercase tracking-[0.14em] text-muted"
+              className="flex items-center gap-2 text-[15px] font-semibold text-muted"
             >
-              <PiggyBank className="h-4 w-4 text-accent" aria-hidden /> Funding gap meter
+              <PiggyBank className="h-4 w-4 text-accent" aria-hidden /> Funding gap
             </h2>
             <p className="mt-3 font-display text-3xl font-semibold leading-tight sm:text-5xl">
               <CountUp
@@ -110,9 +110,7 @@ export function FundingGapMeter() {
           <div className="text-right">
             {f.gap > 0 ? (
               <p className="rounded-2xl bg-accent-soft px-4 py-3">
-                <span className="block text-xs font-semibold uppercase tracking-wider text-muted">
-                  Gap
-                </span>
+                <span className="block text-[13px] font-medium text-muted">Gap</span>
                 <span className="tabular font-display text-3xl font-semibold">
                   {formatINRCompact(f.gap)}
                 </span>
@@ -228,16 +226,16 @@ export function FundingGapMeter() {
               No more open scholarships match your profile right now.{' '}
               <Link to="/discover" className="font-semibold text-primary hover:underline">
                 Browse near-misses
-              </Link>{' '}
-              — some only miss by a few marks.
+              </Link>
+              . Some only miss by a few marks.
             </p>
           ) : (
             <>
               <p className="mt-1 text-sm text-muted">
                 {suggestedTotal >= f.gap
                   ? 'Applying to these could close your entire gap'
-                  : 'These would shrink your gap the most'}{' '}
-                — worth <strong className="tabular text-ink">{formatINR(suggestedTotal)}</strong>{' '}
+                  : 'These would shrink your gap the most'}
+                , worth <strong className="tabular text-ink">{formatINR(suggestedTotal)}</strong>{' '}
                 together.
               </p>
               <ul className="mt-4 grid grid-cols-1 gap-3 md:grid-cols-3">

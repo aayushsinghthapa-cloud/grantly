@@ -1,3 +1,4 @@
+import { motion } from 'framer-motion';
 import { Monitor, Moon, Sun } from 'lucide-react';
 import { useUIStore, type Theme } from '@/store/ui';
 import { cn } from '@/lib/cn';
@@ -37,7 +38,7 @@ export function ThemeSegmented() {
     <div
       role="radiogroup"
       aria-label="Colour theme"
-      className="inline-flex rounded-xl border border-border bg-surface-2 p-1"
+      className="isolate inline-flex rounded-full bg-surface-2 p-1"
     >
       {order.map((t) => {
         const { icon: Icon, label } = meta[t];
@@ -50,10 +51,18 @@ export function ThemeSegmented() {
             aria-checked={checked}
             onClick={() => setTheme(t)}
             className={cn(
-              'inline-flex items-center gap-1.5 rounded-lg px-3 py-1.5 text-sm font-medium transition-colors',
-              checked ? 'bg-surface text-ink shadow-soft' : 'text-muted hover:text-ink',
+              'relative inline-flex items-center gap-1.5 rounded-full px-3.5 py-1.5 text-[13px] font-medium transition-colors duration-200',
+              checked ? 'text-ink' : 'text-muted hover:text-ink',
             )}
           >
+            {checked && (
+              <motion.span
+                layoutId="theme-thumb"
+                className="absolute inset-0 -z-10 rounded-full bg-surface shadow-soft"
+                transition={{ type: 'spring', stiffness: 460, damping: 36 }}
+                aria-hidden
+              />
+            )}
             <Icon className="h-4 w-4" aria-hidden />
             {label}
           </button>

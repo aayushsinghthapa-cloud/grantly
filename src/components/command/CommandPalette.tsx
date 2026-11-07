@@ -314,7 +314,7 @@ export function CommandPalette() {
                 <div
                   id={headingId}
                   role="presentation"
-                  className="px-3 pb-1 pt-2 text-xs font-semibold uppercase tracking-wider text-muted"
+                  className="px-3 pb-1 pt-2 text-[13px] font-medium text-muted"
                 >
                   {group}
                 </div>

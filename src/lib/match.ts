@@ -46,7 +46,7 @@ function hardCriteria(p: StudentProfile, s: Scholarship): MatchCriterion[] {
     met: levelOk,
     detail: levelOk
       ? `Open to ${p.level} students like you`
-      : `Only for ${e.levels.join(', ')} — you are ${p.level}`,
+      : `Only for ${e.levels.join(', ')}. You are ${p.level}`,
   });
 
   if (e.maxFamilyIncome !== undefined) {
@@ -71,7 +71,7 @@ function hardCriteria(p: StudentProfile, s: Scholarship): MatchCriterion[] {
       met: ok,
       detail: ok
         ? `Your ${p.percentage}% meets the ${e.minPercentage}% minimum`
-        : `Needs ${e.minPercentage}% — you have ${p.percentage}% (${e.minPercentage - p.percentage} points short)`,
+        : `Needs ${e.minPercentage}%. You have ${p.percentage}% (${e.minPercentage - p.percentage} points short)`,
     });
   }
 
@@ -82,7 +82,9 @@ function hardCriteria(p: StudentProfile, s: Scholarship): MatchCriterion[] {
       kind: 'hard',
       label: 'Gender',
       met: ok,
-      detail: ok ? 'Reserved for women students — you qualify' : 'Reserved for women students only',
+      detail: ok
+        ? 'Reserved for women students, and you qualify'
+        : 'Reserved for women students only',
     });
   }
 
@@ -97,7 +99,7 @@ function hardCriteria(p: StudentProfile, s: Scholarship): MatchCriterion[] {
       met: ok,
       detail: ok
         ? `Open to residents of ${p.state}`
-        : `Only for residents of ${where} — you are in ${p.state}`,
+        : `Only for residents of ${where}. You are in ${p.state}`,
     });
   }
 
@@ -119,7 +121,7 @@ function fitCriteria(
       ? 'Open to every field of study'
       : fieldOk
         ? `Designed for ${p.field} students`
-        : `Aimed at ${s.eligibility.fields!.join(', ')} — you study ${p.field}`,
+        : `Aimed at ${s.eligibility.fields!.join(', ')} . You study ${p.field}`,
   };
 
   const overlap = s.categories.filter((c) => p.interests.includes(c));

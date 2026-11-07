@@ -206,9 +206,7 @@ export function DeadlineRadar() {
         <TabPanel idBase={idBase} value="list" className="mt-5 space-y-5 outline-none">
           {groups.map((g) => (
             <div key={g.label}>
-              <h3 className="font-sans text-xs font-semibold uppercase tracking-wider text-muted">
-                {g.label}
-              </h3>
+              <h3 className="font-sans text-[13px] font-medium text-muted">{g.label}</h3>
               <ul className="mt-2 divide-y divide-border rounded-xl border border-border">
                 {g.items.map((i) => (
                   <li key={i.scholarship.id} className="flex items-center gap-3 p-3">

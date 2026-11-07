@@ -17,7 +17,7 @@ export function MatchRing({
     return (
       <div
         role="img"
-        aria-label="Match score unavailable — create a profile"
+        aria-label="Match score unavailable: create a profile"
         className={cn(
           'grid shrink-0 place-items-center rounded-full border-2 border-dashed border-border text-muted',
           className,

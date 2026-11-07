@@ -50,8 +50,8 @@ export default function DiscoverPage() {
 
   const sortOptions = [
     { value: 'match', label: hasProfile ? 'Best match' : 'Best match (needs profile)' },
-    { value: 'deadline', label: 'Deadline — soonest' },
-    { value: 'amount', label: 'Amount — highest' },
+    { value: 'deadline', label: 'Deadline: soonest' },
+    { value: 'amount', label: 'Amount: highest' },
   ];
 
   return (
@@ -67,7 +67,7 @@ export default function DiscoverPage() {
           <p className="flex items-start gap-2 text-sm">
             <Sparkles className="mt-0.5 h-4 w-4 shrink-0" aria-hidden />
             <span>
-              <strong>See your match score on every scholarship.</strong> It takes about a minute —
+              <strong>See your match score on every scholarship.</strong> It takes about a minute,
               or try the demo profile.
             </span>
           </p>
@@ -140,7 +140,7 @@ export default function DiscoverPage() {
               title="No scholarships match that"
               description={
                 filters.eligibleOnly
-                  ? 'Try turning off “Eligible only” to see near-misses — some only miss by a few marks.'
+                  ? 'Try turning off “Eligible only” to see near-misses. Some only miss by a few marks.'
                   : 'Try a different search term, or loosen a filter or two.'
               }
               action={

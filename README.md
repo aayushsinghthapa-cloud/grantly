@@ -7,13 +7,13 @@
 A scholarship co-pilot that finds what you qualify for, explains why in plain language,<br/>
 walks you through every application, and shows how much of your year is actually funded.
 
-**[Live demo](https://REPLACE-WITH-VERCEL-URL)** · **[Source](https://github.com/aayushsinghthapa-cloud/grantly)** · Built for _THE OUTPOST_ by Frontend Arena
+**[Live demo](https://aayushsinghthapa-cloud.github.io/grantly/)** · **[Source](https://github.com/aayushsinghthapa-cloud/grantly)** · Built for _THE OUTPOST_ by Frontend Arena
 
-![Grantly dashboard showing the Funding Gap Meter, quick stats and Action needed list](docs/screenshots/dashboard.png)
+![Grantly landing page: a layered, live preview of the product beside the headline “Scholarships, finally simple.”](docs/screenshots/landing.png)
 
 </div>
 
-> **Judges — try it in 30 seconds:** open the live demo → **Find my scholarships** → **Try demo profile**.
+> **Judges, try it in 30 seconds:** open the [live demo](https://aayushsinghthapa-cloud.github.io/grantly/) and scroll the landing page, then press **Try the demo**.
 > You'll land in a realistic state: one award won, one submitted, one due in 4 days with missing documents, and a funding gap to close.
 
 ---
@@ -58,6 +58,27 @@ Most scholarship tools stop at "here are some scholarships". Grantly answers the
 
 ![Command palette](docs/screenshots/palette.png)
 
+## Design & motion
+
+The look is deliberately quiet: neutral greys, one emerald accent, one typeface (Geist), pill controls and soft surfaces. There is no gradient text, no glow and no stock illustration. Motion is there to explain what is happening, not to decorate.
+
+**The landing page is a live surface, not a brochure.** It was planned and built with the [scroll-craft](https://github.com/nateherkai/scroll-craft) method: a written brief, a feeling curve with one engineered peak, a different scroll device for each beat, and verification frame by frame. The plan is in [`docs/scrollcraft/builds/grantly-landing/BRIEF.md`](docs/scrollcraft/builds/grantly-landing/BRIEF.md). Every panel on the page is real product markup computing from the clearly labelled sample student. Nothing is a painted mock-up.
+
+| Beat                | Scroll device           | What happens                                                                                                                                                                                    |
+| ------------------- | ----------------------- | ----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| Hero                | parallax + pointer tilt | Three real panels drift at different depths; the front card leans toward the cursor                                                                                                             |
+| The problem         | fade-in on entry        | Three short lines name the mess                                                                                                                                                                 |
+| Every rule, checked | pinned                  | The frame holds while `getMatch()` ticks each rule and the score settles at 94                                                                                                                  |
+| Matches             | horizontal pan          | Vertical scroll travels sideways through the student's real matches                                                                                                                             |
+| Pause               | silence                 | One sentence and space before the peak                                                                                                                                                          |
+| **The peak**        | pinned, the longest     | **Season scrubber:** scroll plays a scholarship season through the real `computeFunding()`. Statuses advance, the bar redistributes, and the gap counts down to ₹0. Scrolling back reverses it. |
+| Documents           | clip-path wipe          | The "4 of 6 ready" list wipes into "6 of 6"                                                                                                                                                     |
+| Close               | a real form             | Pick your level and marks to get a live count of open scholarships; **Continue** carries both answers into onboarding                                                                           |
+
+Implementation notes. The scroll engine is mounted on the landing subtree and destroyed on route change, and the bespoke acts read the same scroll progress through Framer Motion. Bars move with `transform` only (never `width`). UI transitions stay under 300ms on one ease-out curve. Under reduced motion, every position change is dropped: content fades in place and the rail becomes an ordinary sideways scroll area. App-wide, the nav, tab and segmented-control indicators glide between options with spring physics.
+
+![The peak: the funding gap closing as you scroll](docs/screenshots/landing-season.png)
+
 ## Screenshots
 
 | Discover                                                                            | Scholarship detail                                                                                         |
@@ -94,12 +115,13 @@ Accessibility was tested, not assumed:
 | Styling     | **Tailwind CSS** with **CSS-variable design tokens**                                | One token set drives both themes and still supports opacity modifiers (`bg-primary/10`) |
 | Routing     | **React Router v6**                                                                 | Every route is `React.lazy` code-split behind a skeleton fallback                       |
 | State       | **Zustand** + `persist` → `localStorage`                                            | Tiny, no boilerplate; the profile, tracker, vault and progress survive reloads          |
-| Motion      | **Framer Motion**                                                                   | Reveal, count-ups, animated bars and rings, all respecting reduced motion               |
+| Motion      | **Framer Motion** + the **scrollcraft** engine (vendored, MIT)                      | Spring indicators, count-ups and bars in the app; scroll devices on the landing page    |
+| Type        | **Geist**                                                                           | One neutral, precise family for display and text                                        |
 | Drag & drop | **@dnd-kit/core**                                                                   | Accessible by design, with pointer, touch and keyboard sensors                          |
 | Search      | **Fuse.js**                                                                         | Weighted fuzzy search across names, providers, categories and fields                    |
 | Dates       | **date-fns**                                                                        | Calendar-day deadline maths                                                             |
 | Icons       | **lucide-react**                                                                    | Consistent icon set, no emoji used as icons                                             |
-| Quality     | **Vitest**, **ESLint** (typescript-eslint, react-hooks, **jsx-a11y**), **Prettier** | 59 unit tests; lint must pass with zero errors                                          |
+| Quality     | **Vitest**, **ESLint** (typescript-eslint, react-hooks, **jsx-a11y**), **Prettier** | 64 unit tests; lint must pass with zero errors                                          |
 
 No UI kit. Every primitive (Button, Card, Badge, Chip, Input/Select, Dialog/Sheet, Tabs, Menu, Switch, ProgressRing, CommandPalette, Tooltip, EmptyState, Skeleton, CountUp, Toaster) is built from scratch with Tailwind.
 
@@ -190,13 +212,17 @@ npm run dev          # http://localhost:5173
 | `npm run dev`     | Start the dev server                               |
 | `npm run build`   | Type-check and build for production into `dist/`   |
 | `npm run preview` | Serve the production build locally                 |
-| `npm test`        | Run the Vitest unit tests (59)                     |
+| `npm test`        | Run the Vitest unit tests (64)                     |
 | `npm run lint`    | Run ESLint, including accessibility rules          |
 | `npm run check`   | Typecheck + lint + test + build: the pre-push gate |
 
-## Deployment (Vercel)
+## Deployment
 
-The repo deploys with zero configuration:
+**Live:** https://aayushsinghthapa-cloud.github.io/grantly/
+
+**GitHub Pages (current).** `.github/workflows/deploy.yml` runs typecheck, lint and tests on every push to `main`, builds with `GITHUB_PAGES=true` (Vite `base` and the router `basename` become `/grantly/`), copies `index.html` to `404.html` so deep links load, and publishes `dist/`.
+
+**Vercel (alternative), zero configuration:**
 
 1. Push to GitHub, then go to **vercel.com → Add New → Project** and import the repo.
 2. Vercel detects **Vite**. Keep the defaults: build command `npm run build`, output directory `dist`.
@@ -212,3 +238,5 @@ No environment variables or backend are needed.
 ## License
 
 Original work created for the THE OUTPOST hackathon.
+
+The scroll engine in `src/vendor/scrollcraft/` is the open-source [scroll-craft](https://github.com/nateherkai/scroll-craft) runtime by Nate Herk, used unmodified under the MIT License (see `src/vendor/scrollcraft/LICENSE`).

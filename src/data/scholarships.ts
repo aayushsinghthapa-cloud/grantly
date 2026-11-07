@@ -396,7 +396,7 @@ export const SCHOLARSHIPS: Scholarship[] = [
     requiredDocuments: ['Aadhaar', 'Marksheet', 'Statement of Purpose', 'Bank Passbook'],
     steps: essaySteps(
       'Nimbus Labs',
-      'Tell us about something you built — code, hardware, anything — and what you learned.',
+      'Tell us about something you built (code, hardware, anything) and what you learned.',
     ),
     summary: 'A one-time award plus an internship interview for women in computing.',
     description:

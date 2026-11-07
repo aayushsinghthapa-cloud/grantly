@@ -117,7 +117,7 @@ describe('getMatch', () => {
       makeScholarship({ eligibility: { levels: ['Undergraduate'], minPercentage: 85 } }),
     );
     expect(m.criteria.find((c) => c.key === 'percentage')!.detail).toBe(
-      'Needs 85% — you have 82% (3 points short)',
+      'Needs 85%. You have 82% (3 points short)',
     );
   });
 });

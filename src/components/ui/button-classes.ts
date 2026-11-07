@@ -4,10 +4,10 @@ export type ButtonVariant = 'primary' | 'secondary' | 'ghost' | 'accent' | 'dang
 export type ButtonSize = 'sm' | 'md' | 'lg' | 'icon';
 
 const variants: Record<ButtonVariant, string> = {
-  primary: 'bg-primary text-primary-fg hover:bg-primary/90 shadow-soft',
-  secondary: 'bg-surface text-ink border border-border hover:bg-surface-2',
+  primary: 'bg-primary text-primary-fg hover:bg-primary/90',
+  secondary: 'bg-surface text-ink ring-1 ring-inset ring-border hover:bg-surface-2',
   ghost: 'text-ink hover:bg-surface-2',
-  accent: 'bg-accent text-accent-fg hover:bg-accent/90 shadow-soft',
+  accent: 'bg-ink text-bg hover:bg-ink/85',
   danger: 'bg-danger text-white hover:bg-danger/90 dark:text-bg',
 };
 
@@ -25,8 +25,8 @@ export function buttonClasses(
   className?: string,
 ) {
   return cn(
-    'inline-flex shrink-0 select-none items-center justify-center rounded-xl font-medium transition-colors',
-    'disabled:pointer-events-none disabled:opacity-50 active:translate-y-px',
+    'inline-flex shrink-0 select-none items-center justify-center rounded-full font-medium transition-[background-color,transform,box-shadow] duration-200 ease-apple',
+    'disabled:pointer-events-none disabled:opacity-40 active:scale-[0.97]',
     variants[variant],
     sizes[size],
     className,

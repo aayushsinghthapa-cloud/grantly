@@ -27,7 +27,7 @@ export function Roadmap({ scholarship: s }: { scholarship: Scholarship }) {
     if (willStart)
       toast({
         title: 'Moved to Preparing',
-        description: 'Nice start — we’ll track this in your board.',
+        description: 'Nice start. We’ll track this on your board.',
         tone: 'success',
       });
   };

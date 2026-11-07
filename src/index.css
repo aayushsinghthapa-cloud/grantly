@@ -6,46 +6,47 @@
    All text/background pairs checked for WCAG AA (4.5:1 body, 3:1 large/UI). */
 @layer base {
   :root {
-    --bg: 247 245 240; /* #F7F5F0 warm paper */
+    /* Neutral, Apple-like greys with a single emerald accent. AA-checked. */
+    --bg: 245 245 247; /* #F5F5F7 */
     --surface: 255 255 255;
-    --surface-2: 241 238 230;
-    --ink: 20 33 61; /* #14213D */
-    --muted: 91 100 117; /* #5B6475 */
-    --border: 228 224 214; /* #E4E0D6 */
-    --primary: 31 111 92; /* #1F6F5C deep emerald */
+    --surface-2: 240 240 243; /* #F0F0F3 */
+    --ink: 29 29 31; /* #1D1D1F */
+    --muted: 102 102 108; /* #66666C — ≥4.5:1 on bg and surface-2 */
+    --border: 226 226 231; /* #E2E2E7 */
+    --primary: 31 111 92; /* #1F6F5C emerald — the only brand colour */
     --primary-fg: 255 255 255;
-    --primary-soft: 227 240 236;
-    --accent: 242 169 0; /* #F2A900 marigold — fills only, never body text on light */
-    --accent-fg: 20 33 61;
-    --accent-soft: 253 241 211;
-    --danger: 194 65 12; /* #C2410C */
-    --danger-soft: 253 242 236; /* lightened from #FBE9E1 so danger text on it passes AA (4.7:1) */
-    --success: 22 101 52; /* #166534 — darkened from #15803D: AA on the pale success/primary tints */
-    --success-soft: 227 243 232;
-    --warning: 146 64 14; /* amber text, AA on warning-soft */
+    --primary-soft: 232 243 239;
+    --accent: 242 169 0; /* marigold — data fills only (funding meter, "soon") */
+    --accent-fg: 29 29 31;
+    --accent-soft: 253 243 214;
+    --danger: 194 65 12;
+    --danger-soft: 253 242 236;
+    --success: 22 101 52;
+    --success-soft: 230 244 235;
+    --warning: 146 64 14;
     --warning-soft: 254 243 199;
     color-scheme: light;
   }
 
   .dark {
-    --bg: 15 20 32; /* #0F1420 */
-    --surface: 23 29 43; /* #171D2B */
-    --surface-2: 30 37 54;
-    --ink: 236 239 244; /* #ECEFF4 */
-    --muted: 154 163 181;
-    --border: 42 50 69; /* #2A3245 */
-    --primary: 63 191 155; /* #3FBF9B */
-    --primary-fg: 15 20 32;
-    --primary-soft: 22 51 45;
-    --accent: 245 184 46; /* #F5B82E */
-    --accent-fg: 15 20 32;
-    --accent-soft: 58 46 18;
-    --danger: 249 115 80;
-    --danger-soft: 59 31 26;
+    --bg: 10 10 12; /* near-black, never pure #000 */
+    --surface: 22 22 24; /* #161618 */
+    --surface-2: 38 38 41;
+    --ink: 245 245 247;
+    --muted: 152 152 159;
+    --border: 48 48 52;
+    --primary: 63 191 155;
+    --primary-fg: 10 10 12;
+    --primary-soft: 18 46 39;
+    --accent: 245 184 46;
+    --accent-fg: 10 10 12;
+    --accent-soft: 56 44 16;
+    --danger: 255 128 92;
+    --danger-soft: 58 28 22;
     --success: 74 222 128;
-    --success-soft: 21 48 31;
+    --success-soft: 18 46 28;
     --warning: 251 191 36;
-    --warning-soft: 58 46 18;
+    --warning-soft: 56 44 16;
     color-scheme: dark;
   }
 
@@ -56,14 +57,19 @@
 
   body {
     @apply bg-bg font-sans text-ink antialiased;
-    font-feature-settings: 'cv11', 'ss01';
+    letter-spacing: -0.005em;
   }
 
   h1,
   h2,
   h3 {
-    @apply font-display tracking-tight;
+    @apply font-display font-semibold;
+    letter-spacing: -0.022em;
     font-optical-sizing: auto;
+  }
+
+  h1 {
+    letter-spacing: -0.032em;
   }
 
   :focus-visible {
@@ -71,12 +77,23 @@
   }
 
   ::selection {
-    @apply bg-accent/40 text-ink;
+    @apply bg-primary text-primary-fg;
+  }
+
+  :root {
+    caret-color: rgb(var(--primary));
+    accent-color: rgb(var(--primary));
+    scrollbar-color: rgb(var(--ink) / 0.25) transparent;
+  }
+
+  a {
+    text-decoration-thickness: 1px;
+    text-underline-offset: 0.22em;
   }
 
   dialog::backdrop {
-    background: rgb(15 20 32 / 0.5);
-    backdrop-filter: blur(2px);
+    background: rgb(0 0 0 / 0.32);
+    backdrop-filter: blur(8px) saturate(140%);
   }
 }
 

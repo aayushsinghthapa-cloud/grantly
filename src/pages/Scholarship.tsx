@@ -98,7 +98,7 @@ export default function ScholarshipPage() {
 
         <dl className="grid grid-cols-1 border-t border-border sm:grid-cols-3">
           <div className="border-b border-border p-5 sm:border-b-0 sm:border-r sm:px-8">
-            <dt className="text-xs font-semibold uppercase tracking-wider text-muted">Award</dt>
+            <dt className="text-[13px] font-medium text-muted">Award</dt>
             <dd className="mt-1">
               <span className="tabular font-display text-3xl font-semibold">
                 {formatINR(s.amount)}
@@ -107,7 +107,7 @@ export default function ScholarshipPage() {
             </dd>
           </div>
           <div className="border-b border-border p-5 sm:border-b-0 sm:border-r sm:px-8">
-            <dt className="text-xs font-semibold uppercase tracking-wider text-muted">Deadline</dt>
+            <dt className="text-[13px] font-medium text-muted">Deadline</dt>
             <dd className="mt-1 flex flex-wrap items-baseline gap-x-3 gap-y-1">
               <span
                 className={cn(
@@ -122,9 +122,7 @@ export default function ScholarshipPage() {
             </dd>
           </div>
           <div className="p-5 sm:px-8">
-            <dt className="text-xs font-semibold uppercase tracking-wider text-muted">
-              Competition
-            </dt>
+            <dt className="text-[13px] font-medium text-muted">Competition</dt>
             <dd className="mt-1">
               {odds ? (
                 <>
@@ -260,7 +258,7 @@ export default function ScholarshipPage() {
 function Fact({ label, value }: { label: string; value: string }) {
   return (
     <div>
-      <dt className="text-xs font-semibold uppercase tracking-wider text-muted">{label}</dt>
+      <dt className="text-[13px] font-medium text-muted">{label}</dt>
       <dd className="mt-1">{value}</dd>
     </div>
   );

@@ -31,7 +31,7 @@ function toggle<T>(list: T[], value: T): T[] {
 function Group({ legend, children }: { legend: string; children: ReactNode }) {
   return (
     <fieldset className="border-t border-border pt-5">
-      <legend className="float-left mb-3 w-full text-xs font-semibold uppercase tracking-wider text-muted">
+      <legend className="float-left mb-3 w-full text-[13px] font-semibold text-ink">
         {legend}
       </legend>
       <div className="clear-both flex flex-wrap gap-2">{children}</div>

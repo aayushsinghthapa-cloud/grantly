@@ -1,4 +1,6 @@
 import { NavLink, Link } from 'react-router-dom';
+import { motion } from 'framer-motion';
+import { Search } from 'lucide-react';
 import { Logo } from './Logo';
 import { ThemeToggle } from './ThemeToggle';
 import { NAV_ITEMS } from './nav-items';
@@ -6,7 +8,6 @@ import { buttonClasses } from '@/components/ui';
 import { cn } from '@/lib/cn';
 import { useAppStore } from '@/store/app';
 import { usePaletteStore } from '@/store/palette';
-import { Search } from 'lucide-react';
 
 const initials = (name: string) =>
   name
@@ -16,34 +17,37 @@ const initials = (name: string) =>
     .join('')
     .toUpperCase();
 
+/** Slim, translucent top bar. The active-page pill glides between links (shared layoutId). */
 export function TopNav() {
   const name = useAppStore((s) => s.profile?.name);
   return (
-    <header className="sticky top-0 z-40 border-b border-border/80 bg-bg/85 backdrop-blur supports-[backdrop-filter]:bg-bg/70">
-      <div className="container-page flex h-16 items-center justify-between gap-4">
+    <header className="sticky top-0 z-40 border-b border-border/60 bg-bg/75 backdrop-blur-xl backdrop-saturate-150">
+      <div className="container-page flex h-14 items-center justify-between gap-4">
         <Logo />
         <nav aria-label="Primary" className="hidden md:block">
-          <ul className="flex items-center gap-1">
+          <ul className="flex items-center gap-0.5">
             {NAV_ITEMS.map(({ to, label }) => (
               <li key={to}>
                 <NavLink
                   to={to}
                   className={({ isActive }) =>
                     cn(
-                      'relative rounded-lg px-3 py-2 text-sm font-medium transition-colors',
+                      'relative block rounded-full px-3.5 py-1.5 text-[13px] font-medium transition-colors duration-200',
                       isActive ? 'text-ink' : 'text-muted hover:text-ink',
                     )
                   }
                 >
                   {({ isActive }) => (
                     <>
-                      {label}
                       {isActive && (
-                        <span
-                          className="absolute inset-x-3 -bottom-[13px] h-0.5 rounded-full bg-primary"
+                        <motion.span
+                          layoutId="nav-active"
+                          className="absolute inset-0 -z-10 rounded-full bg-surface shadow-soft ring-1 ring-border/70"
+                          transition={{ type: 'spring', stiffness: 420, damping: 34 }}
                           aria-hidden
                         />
                       )}
+                      {label}
                     </>
                   )}
                 </NavLink>
@@ -57,12 +61,12 @@ export function TopNav() {
             onClick={() => usePaletteStore.getState().setOpen(true)}
             aria-label="Search (Command K)"
             aria-keyshortcuts="Meta+K Control+K"
-            className="flex h-10 items-center gap-2 rounded-xl px-2.5 text-sm text-muted transition-colors hover:bg-surface-2 hover:text-ink lg:border lg:border-border lg:bg-surface lg:pl-3 lg:pr-2"
+            className="flex h-9 items-center gap-2 rounded-full px-2.5 text-[13px] text-muted transition-colors hover:bg-surface-2 hover:text-ink lg:bg-surface-2/80 lg:pl-3 lg:pr-2"
           >
-            <Search className="h-5 w-5 lg:h-4 lg:w-4" aria-hidden />
+            <Search className="h-[18px] w-[18px] lg:h-4 lg:w-4" aria-hidden />
             <span className="hidden lg:inline">Search</span>
             <kbd
-              className="hidden rounded-md border border-border bg-surface-2 px-1.5 font-sans text-xs lg:inline"
+              className="hidden rounded-md bg-surface px-1.5 font-sans text-[11px] lg:inline"
               aria-hidden
             >
               ⌘K
@@ -74,16 +78,16 @@ export function TopNav() {
             <Link
               to="/profile"
               aria-label={`Profile: ${name}`}
-              className="grid h-9 w-9 place-items-center rounded-full bg-primary font-display text-sm font-semibold text-primary-fg"
+              className="ml-1 grid h-8 w-8 place-items-center rounded-full bg-ink text-xs font-semibold text-bg transition-transform active:scale-95"
             >
               {initials(name)}
             </Link>
           ) : (
             <Link
               to="/onboarding"
-              className={buttonClasses('primary', 'sm', 'hidden sm:inline-flex')}
+              className={buttonClasses('primary', 'sm', 'ml-1 hidden h-8 sm:inline-flex')}
             >
-              Find my scholarships
+              Get started
             </Link>
           )}
         </div>

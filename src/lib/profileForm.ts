@@ -77,10 +77,10 @@ export function validateDraft(
         break;
       case 'gender':
         if (!d.gender)
-          e.gender = 'Please choose an option — some scholarships are reserved for women.';
+          e.gender = 'Please choose an option. Some scholarships are reserved for women.';
         break;
       case 'state':
-        if (!d.state) e.state = 'Please choose your state — some scholarships are state-specific.';
+        if (!d.state) e.state = 'Please choose your state. Some scholarships are state-specific.';
         break;
       case 'level':
         if (!d.level) e.level = 'Please choose your current level of study.';
@@ -103,7 +103,7 @@ export function validateDraft(
       case 'annualCost': {
         const n = num(d.annualCost);
         if (Number.isNaN(n) || n <= 0)
-          e.annualCost = 'Enter your yearly cost of study — a rough estimate is fine.';
+          e.annualCost = 'Enter your yearly cost of study. A rough estimate is fine.';
         break;
       }
       case 'interests':

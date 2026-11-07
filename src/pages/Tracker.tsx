@@ -156,7 +156,7 @@ export default function TrackerPage() {
         <EmptyState
           icon={<KanbanSquare className="h-6 w-6" />}
           title="Your board is empty"
-          description="Save scholarships from Discover — they’ll appear here so you can track them from saved to submitted to result."
+          description="Save scholarships from Discover and they’ll appear here so you can track them from saved to submitted to result."
           action={
             <Link to="/discover" className={buttonClasses('primary')}>
               Find scholarships
