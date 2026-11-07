@@ -17,3 +17,5 @@ export { Tooltip } from './Tooltip';
 export { Toaster } from './Toaster';
 export { Switch } from './Switch';
 export { CountUp } from './CountUp';
+export { Menu } from './Menu';
+export type { MenuItem } from './Menu';
