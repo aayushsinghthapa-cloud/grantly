@@ -2,6 +2,7 @@ import { describe, expect, it } from 'vitest';
 import { render, screen } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
 import { MemoryRouter, Route, Routes, useLocation } from 'react-router-dom';
+import { ROUTER_FUTURE } from '@/test/router';
 import { StartForm } from './StartForm';
 
 function OnboardingProbe() {
@@ -11,7 +12,7 @@ function OnboardingProbe() {
 
 const renderForm = () =>
   render(
-    <MemoryRouter>
+    <MemoryRouter future={ROUTER_FUTURE}>
       <Routes>
         <Route path="/" element={<StartForm />} />
         <Route path="/onboarding" element={<OnboardingProbe />} />

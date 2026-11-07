@@ -2,12 +2,13 @@ import { beforeEach, describe, expect, it } from 'vitest';
 import { render, screen } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
 import { MemoryRouter } from 'react-router-dom';
+import { ROUTER_FUTURE } from '@/test/router';
 import OnboardingPage from './Onboarding';
 import { useAppStore } from '@/store/app';
 
 const renderPage = () =>
   render(
-    <MemoryRouter>
+    <MemoryRouter future={ROUTER_FUTURE}>
       <OnboardingPage />
     </MemoryRouter>,
   );

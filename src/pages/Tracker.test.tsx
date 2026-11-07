@@ -2,6 +2,7 @@ import { beforeEach, describe, expect, it } from 'vitest';
 import { render, screen, within } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
 import { MemoryRouter } from 'react-router-dom';
+import { ROUTER_FUTURE } from '@/test/router';
 import TrackerPage from './Tracker';
 import { useAppStore } from '@/store/app';
 
@@ -11,7 +12,7 @@ describe('<TrackerPage /> keyboard / menu alternative to drag-and-drop', () => {
   it('moves a card to another column from its “Move” menu', async () => {
     const user = userEvent.setup();
     render(
-      <MemoryRouter>
+      <MemoryRouter future={ROUTER_FUTURE}>
         <TrackerPage />
       </MemoryRouter>,
     );
@@ -34,7 +35,7 @@ describe('<TrackerPage /> keyboard / menu alternative to drag-and-drop', () => {
   it('opens the menu from the keyboard and closes it with Escape', async () => {
     const user = userEvent.setup();
     render(
-      <MemoryRouter>
+      <MemoryRouter future={ROUTER_FUTURE}>
         <TrackerPage />
       </MemoryRouter>,
     );

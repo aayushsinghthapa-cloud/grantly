@@ -33,9 +33,19 @@ const router = createBrowserRouter(
     },
   ],
   // Matches Vite's `base`, so routes work under /grantly/ on GitHub Pages and at / elsewhere.
-  { basename: import.meta.env.BASE_URL.replace(/\/$/, '') || '/' },
+  {
+    basename: import.meta.env.BASE_URL.replace(/\/$/, '') || '/',
+    // Opt in to React Router v7 behaviour now, so the upgrade is a no-op.
+    future: {
+      v7_relativeSplatPath: true,
+      v7_fetcherPersist: true,
+      v7_normalizeFormMethod: true,
+      v7_partialHydration: true,
+      v7_skipActionErrorRevalidation: true,
+    },
+  },
 );
 
 export default function App() {
-  return <RouterProvider router={router} />;
+  return <RouterProvider router={router} future={{ v7_startTransition: true }} />;
 }

@@ -1,13 +1,14 @@
 import { beforeEach, describe, expect, it } from 'vitest';
 import { act, render, screen } from '@testing-library/react';
 import { MemoryRouter } from 'react-router-dom';
+import { ROUTER_FUTURE } from '@/test/router';
 import { DemoBanner } from './DemoBanner';
 import { useAppStore } from '@/store/app';
 import { DEMO_PROFILE } from '@/data/demoProfile';
 
 const renderAt = (path: string) =>
   render(
-    <MemoryRouter initialEntries={[path]}>
+    <MemoryRouter future={ROUTER_FUTURE} initialEntries={[path]}>
       <DemoBanner />
     </MemoryRouter>,
   );
