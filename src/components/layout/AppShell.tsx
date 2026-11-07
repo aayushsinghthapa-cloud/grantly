@@ -2,6 +2,7 @@ import { Suspense, useEffect, useRef } from 'react';
 import { Outlet, useLocation } from 'react-router-dom';
 import { motion } from 'framer-motion';
 import { TopNav } from './TopNav';
+import { DemoBanner } from './DemoBanner';
 import { CommandPalette } from '@/components/command/CommandPalette';
 import { BottomTabBar } from './BottomTabBar';
 import { Footer } from './Footer';
@@ -33,6 +34,7 @@ export function AppShell() {
         Skip to content
       </a>
       <TopNav />
+      <DemoBanner />
       <main id="main" ref={mainRef} tabIndex={-1} className="flex-1 pb-24 outline-none md:pb-0">
         <Suspense fallback={<PageSkeleton />}>
           {/* Gentle per-route fade; MotionConfig reducedMotion="user" turns it off when requested. */}

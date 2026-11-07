@@ -35,7 +35,8 @@ const fieldId = (k: DraftKey) => `ob-${k}`;
 
 export default function OnboardingPage() {
   useDocumentTitle('Build your profile');
-  const existing = useAppStore((s) => s.profile);
+  // The sample student is not the visitor's profile: start them from a blank form.
+  const existing = useAppStore((s) => (s.isDemo ? null : s.profile));
   const setProfile = useAppStore((s) => s.setProfile);
   const loadDemo = useAppStore((s) => s.loadDemo);
 

@@ -18,20 +18,21 @@ jobs:
   build:
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v4
-      - uses: actions/setup-node@v4
+      - uses: actions/checkout@v5
+      - uses: actions/setup-node@v5
         with:
-          node-version: 20
+          node-version: 22
           cache: npm
       - run: npm ci
       - name: Typecheck, lint and test
         run: npm run typecheck && npm run lint && npm test
-      - name: Build for GitHub Pages
-        run: npm run build
+      # Build, then pre-render every route to static HTML (200 on every URL, readable without JS).
+      # The script also writes 404.html (app shell for unknown URLs), sitemap.xml and robots.txt.
+      - name: Build and pre-render for GitHub Pages
+        run: npm run build:static
         env:
           GITHUB_PAGES: 'true'
-      # Pages has no SPA rewrites: serving index.html as the 404 page lets deep links load the app.
-      - run: cp dist/index.html dist/404.html
+          CHROME_PATH: /usr/bin/google-chrome
       - uses: actions/configure-pages@v5
       - uses: actions/upload-pages-artifact@v3
         with:

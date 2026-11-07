@@ -9,14 +9,26 @@ walks you through every application, and shows how much of your year is actually
 
 **[Live demo](https://aayushsinghthapa-cloud.github.io/grantly/)** · **[Source](https://github.com/aayushsinghthapa-cloud/grantly)** · Built for _THE OUTPOST_ by Frontend Arena
 
+[![Deploy](https://github.com/aayushsinghthapa-cloud/grantly/actions/workflows/deploy.yml/badge.svg)](https://github.com/aayushsinghthapa-cloud/grantly/actions/workflows/deploy.yml) ![Tests](https://img.shields.io/badge/tests-73%20passing-1F6F5C) ![Accessibility](https://img.shields.io/badge/axe-0%20violations-1F6F5C) ![License](https://img.shields.io/badge/license-MIT-1F6F5C)
+
 ![Grantly landing page: a layered, live preview of the product beside the headline “Scholarships, finally simple.”](docs/screenshots/landing.png)
 
 </div>
 
-> **Judges, try it in 30 seconds:** open the [live demo](https://aayushsinghthapa-cloud.github.io/grantly/) and scroll the landing page, then press **Try the demo**.
-> You'll land in a realistic state: one award won, one submitted, one due in 4 days with missing documents, and a funding gap to close.
+> **Judges, start here.** Open the [live demo](https://aayushsinghthapa-cloud.github.io/grantly/). Every page already shows a working sample student (Ananya), so nothing needs to be filled in first: try [Dashboard](https://aayushsinghthapa-cloud.github.io/grantly/dashboard), [Discover](https://aayushsinghthapa-cloud.github.io/grantly/discover), [a scholarship](https://aayushsinghthapa-cloud.github.io/grantly/scholarship/future-engineers-merit), [Tracker](https://aayushsinghthapa-cloud.github.io/grantly/tracker) and [Compare](https://aayushsinghthapa-cloud.github.io/grantly/compare). Press ⌘K / Ctrl+K anywhere. **Use my own details** switches to your own profile.
 
 ---
+
+## Judging criteria → evidence
+
+| Criterion                                   | What to look at                                                                                                                                                                                                                                                                                                                                                                                              |
+| ------------------------------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ |
+| **UI/UX & visual quality**                  | One calm design system (neutral greys, a single emerald accent, Geist, pill controls), designed light **and** dark themes, empty, loading and 404 states, and toasts for every action. The landing page is a live, scroll-choreographed tour of the real product ([design notes](#design--motion)).                                                                                                          |
+| **Functionality**                           | 9 working routes and 30 scholarship pages. Fuzzy search with 7 filters and 3 sorts, match scores, compare (up to 3), interactive application roadmaps, a document vault with expiry dates, a drag-and-drop tracker, a deadline radar, the funding gap meter, a ⌘K command palette, `.ics` calendar export, and onboarding with validation. All of it is persisted locally and resettable.                    |
+| **Creativity & innovation**                 | The **Funding Gap Meter** answers "is my year paid for?" and suggests what would close the gap. The landing page's **season scrubber** lets scroll play a student's whole season through the real funding logic. Plain-language "why you match" for every rule.                                                                                                                                              |
+| **Problem-statement alignment**             | Each of the brief's four pain points (finding, understanding, applying, tracking) has a dedicated feature, mapped in the table below and on the landing page itself.                                                                                                                                                                                                                                         |
+| **Code quality & technical implementation** | Strict TypeScript. Business logic is pure and lives in `src/lib/`. **73 tests** in 16 files: unit tests for logic, plus component tests with Testing Library covering form validation and focus, the keyboard tracker menu, the landing form and demo mode. ESLint with jsx-a11y and Prettier. Lazy routes. CI runs typecheck, lint and tests on every push. **Every route is pre-rendered** to static HTML. |
+| **Responsiveness & accessibility**          | **0 axe-core violations** on every route in both themes. No horizontal overflow at 360, 768, 1280 or 1536px. Full keyboard support, including drag-and-drop. Screen-reader announcements, skip link, focus management, reduced-motion support and AA contrast.                                                                                                                                               |
 
 ## The problem
 
@@ -64,18 +76,20 @@ The look is deliberately quiet: neutral greys, one emerald accent, one typeface 
 
 **The landing page is a live surface, not a brochure.** It was planned and built with the [scroll-craft](https://github.com/nateherkai/scroll-craft) method: a written brief, a feeling curve with one engineered peak, a different scroll device for each beat, and verification frame by frame. The plan is in [`docs/scrollcraft/builds/grantly-landing/BRIEF.md`](docs/scrollcraft/builds/grantly-landing/BRIEF.md). Every panel on the page is real product markup computing from the clearly labelled sample student. Nothing is a painted mock-up.
 
-| Beat                | Scroll device           | What happens                                                                                                                                                                                    |
-| ------------------- | ----------------------- | ----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| Hero                | parallax + pointer tilt | Three real panels drift at different depths; the front card leans toward the cursor                                                                                                             |
-| The problem         | fade-in on entry        | Three short lines name the mess                                                                                                                                                                 |
-| Every rule, checked | pinned                  | The frame holds while `getMatch()` ticks each rule and the score settles at 94                                                                                                                  |
-| Matches             | horizontal pan          | Vertical scroll travels sideways through the student's real matches                                                                                                                             |
-| Pause               | silence                 | One sentence and space before the peak                                                                                                                                                          |
-| **The peak**        | pinned, the longest     | **Season scrubber:** scroll plays a scholarship season through the real `computeFunding()`. Statuses advance, the bar redistributes, and the gap counts down to ₹0. Scrolling back reverses it. |
-| Documents           | clip-path wipe          | The "4 of 6 ready" list wipes into "6 of 6"                                                                                                                                                     |
-| Close               | a real form             | Pick your level and marks to get a live count of open scholarships; **Continue** carries both answers into onboarding                                                                           |
+| Section                  | Motion                   | What it shows                                                                                                                                                               |
+| ------------------------ | ------------------------ | --------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| Hero                     | parallax + pointer tilt  | Three real panels at different depths; the front card leans toward the cursor                                                                                               |
+| The problem → the answer | none, deliberately       | Three short lines name the mess; the four pain points map to Grantly's answers                                                                                              |
+| Finding                  | snap-scrolling rail      | The sample student's 12 real matches, sorted by fit (buttons, keyboard and swipe)                                                                                           |
+| Understanding            | rules tick in on arrival | `getMatch()` checks each rule in plain words; the score ring fills to 94                                                                                                    |
+| Applying                 | clip-path wipe           | The "4 of 6 ready" document list wipes into "6 of 6"                                                                                                                        |
+| Tracking                 | none                     | The student's real tracker rows with urgency chips                                                                                                                          |
+| **Signature**            | pinned, scroll-driven    | **Season scrubber:** scroll plays a season through the real `computeFunding()`. Statuses advance, the bar fills, and the gap counts down to ₹0. Scrolling back reverses it. |
+| Close                    | a real form              | Level and marks give a live count of open scholarships; **Continue** carries both into onboarding                                                                           |
 
-Implementation notes. The scroll engine is mounted on the landing subtree and destroyed on route change, and the bespoke acts read the same scroll progress through Framer Motion. Bars move with `transform` only (never `width`). UI transitions stay under 300ms on one ease-out curve. Under reduced motion, every position change is dropped: content fades in place and the rail becomes an ordinary sideways scroll area. App-wide, the nav, tab and segmented-control indicators glide between options with spring physics.
+**Progressive enhancement.** Every section renders in its finished state by default: what crawlers, full-page screenshots, the pre-rendered HTML and reduced-motion users see. Animations only play for a visitor who actually scrolls toward a section, and they play once.
+
+Implementation notes. The scroll engine is mounted on the landing subtree and destroyed on route change, and the bespoke acts read the same scroll progress through Framer Motion. Bars move with `transform` only (never `width`). UI transitions stay under 300ms on one ease-out curve. Under reduced motion, every position change is dropped: content fades in place instead of moving. App-wide, the nav, tab and segmented-control indicators glide between options with spring physics.
 
 ![The peak: the funding gap closing as you scroll](docs/screenshots/landing-season.png)
 
@@ -109,19 +123,19 @@ Accessibility was tested, not assumed:
 
 ## Tech stack
 
-|             | Choice                                                                              | Why                                                                                     |
-| ----------- | ----------------------------------------------------------------------------------- | --------------------------------------------------------------------------------------- |
-| Framework   | **React 18 + TypeScript (strict)** on **Vite**                                      | Fast dev loop, strict types across data, logic and UI                                   |
-| Styling     | **Tailwind CSS** with **CSS-variable design tokens**                                | One token set drives both themes and still supports opacity modifiers (`bg-primary/10`) |
-| Routing     | **React Router v6**                                                                 | Every route is `React.lazy` code-split behind a skeleton fallback                       |
-| State       | **Zustand** + `persist` → `localStorage`                                            | Tiny, no boilerplate; the profile, tracker, vault and progress survive reloads          |
-| Motion      | **Framer Motion** + the **scrollcraft** engine (vendored, MIT)                      | Spring indicators, count-ups and bars in the app; scroll devices on the landing page    |
-| Type        | **Geist**                                                                           | One neutral, precise family for display and text                                        |
-| Drag & drop | **@dnd-kit/core**                                                                   | Accessible by design, with pointer, touch and keyboard sensors                          |
-| Search      | **Fuse.js**                                                                         | Weighted fuzzy search across names, providers, categories and fields                    |
-| Dates       | **date-fns**                                                                        | Calendar-day deadline maths                                                             |
-| Icons       | **lucide-react**                                                                    | Consistent icon set, no emoji used as icons                                             |
-| Quality     | **Vitest**, **ESLint** (typescript-eslint, react-hooks, **jsx-a11y**), **Prettier** | 64 unit tests; lint must pass with zero errors                                          |
+|             | Choice                                                                                                    | Why                                                                                     |
+| ----------- | --------------------------------------------------------------------------------------------------------- | --------------------------------------------------------------------------------------- |
+| Framework   | **React 18 + TypeScript (strict)** on **Vite**                                                            | Fast dev loop, strict types across data, logic and UI                                   |
+| Styling     | **Tailwind CSS** with **CSS-variable design tokens**                                                      | One token set drives both themes and still supports opacity modifiers (`bg-primary/10`) |
+| Routing     | **React Router v6**                                                                                       | Every route is `React.lazy` code-split behind a skeleton fallback                       |
+| State       | **Zustand** + `persist` → `localStorage`                                                                  | Tiny, no boilerplate; the profile, tracker, vault and progress survive reloads          |
+| Motion      | **Framer Motion** + the **scrollcraft** engine (vendored, MIT)                                            | Spring indicators, count-ups and bars in the app; scroll devices on the landing page    |
+| Type        | **Geist**                                                                                                 | One neutral, precise family for display and text                                        |
+| Drag & drop | **@dnd-kit/core**                                                                                         | Accessible by design, with pointer, touch and keyboard sensors                          |
+| Search      | **Fuse.js**                                                                                               | Weighted fuzzy search across names, providers, categories and fields                    |
+| Dates       | **date-fns**                                                                                              | Calendar-day deadline maths                                                             |
+| Icons       | **lucide-react**                                                                                          | Consistent icon set, no emoji used as icons                                             |
+| Quality     | **Vitest** + **Testing Library**, **ESLint** (typescript-eslint, react-hooks, **jsx-a11y**), **Prettier** | 73 tests (logic + component); lint must pass                                            |
 
 No UI kit. Every primitive (Button, Card, Badge, Chip, Input/Select, Dialog/Sheet, Tabs, Menu, Switch, ProgressRing, CommandPalette, Tooltip, EmptyState, Skeleton, CountUp, Toaster) is built from scratch with Tailwind.
 
@@ -212,7 +226,7 @@ npm run dev          # http://localhost:5173
 | `npm run dev`     | Start the dev server                               |
 | `npm run build`   | Type-check and build for production into `dist/`   |
 | `npm run preview` | Serve the production build locally                 |
-| `npm test`        | Run the Vitest unit tests (64)                     |
+| `npm test`        | Run all 73 tests (logic + component)               |
 | `npm run lint`    | Run ESLint, including accessibility rules          |
 | `npm run check`   | Typecheck + lint + test + build: the pre-push gate |
 
@@ -220,7 +234,7 @@ npm run dev          # http://localhost:5173
 
 **Live:** https://aayushsinghthapa-cloud.github.io/grantly/
 
-**GitHub Pages (current).** `.github/workflows/deploy.yml` runs typecheck, lint and tests on every push to `main`, builds with `GITHUB_PAGES=true` (Vite `base` and the router `basename` become `/grantly/`), copies `index.html` to `404.html` so deep links load, and publishes `dist/`.
+**GitHub Pages (current).** `.github/workflows/deploy.yml` runs typecheck, lint and tests on every push to `main`, builds with `GITHUB_PAGES=true` (Vite `base` and the router `basename` become `/grantly/`), then **pre-renders every route** with `scripts/prerender.mjs`: all 38 URLs are served as real HTML with HTTP 200, each with its own title, description and canonical link, plus `sitemap.xml` and `robots.txt`. React takes over in the browser. Run it locally with `npm run build:static`.
 
 **Vercel (alternative), zero configuration:**
 
@@ -237,6 +251,6 @@ No environment variables or backend are needed.
 
 ## License
 
-Original work created for the THE OUTPOST hackathon.
+[MIT](LICENSE). Original work created for the THE OUTPOST hackathon.
 
 The scroll engine in `src/vendor/scrollcraft/` is the open-source [scroll-craft](https://github.com/nateherkai/scroll-craft) runtime by Nate Herk, used unmodified under the MIT License (see `src/vendor/scrollcraft/LICENSE`).

@@ -19,7 +19,8 @@ const initials = (name: string) =>
 
 /** Slim, translucent top bar. The active-page pill glides between links (shared layoutId). */
 export function TopNav() {
-  const name = useAppStore((s) => s.profile?.name);
+  // Sample-student visitors still see the sign-up CTA rather than the demo's initials.
+  const name = useAppStore((s) => (s.isDemo ? undefined : s.profile?.name));
   return (
     <header className="sticky top-0 z-40 border-b border-border/60 bg-bg/75 backdrop-blur-xl backdrop-saturate-150">
       <div className="container-page flex h-14 items-center justify-between gap-4">

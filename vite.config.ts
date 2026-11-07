@@ -11,7 +11,10 @@ export default defineConfig({
     alias: { '@': fileURLToPath(new URL('./src', import.meta.url)) },
   },
   test: {
+    // Logic tests run in node; component tests (*.test.tsx) get a DOM.
     environment: 'node',
-    include: ['src/**/*.test.ts'],
+    environmentMatchGlobs: [['src/**/*.test.tsx', 'jsdom']],
+    include: ['src/**/*.test.{ts,tsx}'],
+    setupFiles: ['src/test/setup.ts'],
   },
 });

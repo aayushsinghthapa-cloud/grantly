@@ -21,6 +21,8 @@ interface AppData {
   checklist: Record<string, number[]>;
   /** Scholarship ids selected for side-by-side comparison (max 3). */
   compare: string[];
+  /** True while the visitor is exploring with the sample student rather than their own profile. */
+  isDemo: boolean;
 }
 
 interface AppActions {
@@ -54,7 +56,12 @@ const initialData: AppData = {
   vault: {},
   checklist: {},
   compare: [],
+  isDemo: false,
 };
+
+/** Three strong demo matches, so Compare has something to show straight away. */
+export const DEMO_COMPARE = ['future-engineers-merit', 'shakti-women-stem', 'kaveri-state-merit'];
+const STORAGE_KEY = 'grantly-data';
 
 const now = () => new Date().toISOString();
 
@@ -63,7 +70,8 @@ export const useAppStore = create<AppState>()(
     (set, get) => ({
       ...initialData,
 
-      setProfile: (profile) => set({ profile }),
+      // Saving a real profile ends demo mode.
+      setProfile: (profile) => set({ profile, isDemo: false }),
       updateProfile: (patch) => {
         const current = get().profile;
         if (current) set({ profile: { ...current, ...patch } });
@@ -124,20 +132,41 @@ export const useAppStore = create<AppState>()(
       },
       clearCompare: () => set({ compare: [] }),
 
-      loadDemo: () => set({ ...buildDemoSeed(), profile: DEMO_PROFILE, compare: [] }),
+      loadDemo: () =>
+        set({ ...buildDemoSeed(), profile: DEMO_PROFILE, compare: DEMO_COMPARE, isDemo: true }),
       resetAll: () => set(initialData),
     }),
     {
-      name: 'grantly-data',
-      version: 1,
+      name: STORAGE_KEY,
+      version: 2,
+      // v1 had no isDemo flag: infer it from whether the saved profile is the sample student.
+      migrate: (persisted, version) => {
+        const state = persisted as AppData;
+        if (version < 2) state.isDemo = state.profile?.name === DEMO_PROFILE.name;
+        return state;
+      },
       storage: createJSONStorage(() => localStorage),
-      partialize: ({ profile, tracker, vault, checklist, compare }): AppData => ({
+      partialize: ({ profile, tracker, vault, checklist, compare, isDemo }): AppData => ({
         profile,
         tracker,
         vault,
         checklist,
         compare,
+        isDemo,
       }),
     },
   ),
 );
+
+/**
+ * First visit only: open the app with the sample student loaded, so every screen shows
+ * real features immediately. A banner makes it clear, and creating a profile replaces it.
+ * Returning visitors (including anyone who reset their data) are left alone.
+ */
+export function seedDemoOnFirstVisit(): void {
+  try {
+    if (localStorage.getItem(STORAGE_KEY) === null) useAppStore.getState().loadDemo();
+  } catch {
+    // Storage blocked (private mode, sandbox): the app still works without persistence.
+  }
+}
