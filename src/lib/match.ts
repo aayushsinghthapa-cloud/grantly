@@ -20,6 +20,12 @@ export interface MatchResult {
   criteria: MatchCriterion[];
 }
 
+export interface ScholarshipWithMatch {
+  scholarship: Scholarship;
+  /** null when the student hasn't created a profile yet. */
+  match: MatchResult | null;
+}
+
 /** Score weights. Hard criteria make up most of the score; fit and interests rank eligible options. */
 export const WEIGHTS = { hard: 60, field: 20, interests: 20 } as const;
 /** Ineligible scholarships are scaled down and never score above this, so they always rank below eligible ones. */

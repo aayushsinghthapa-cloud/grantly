@@ -15,3 +15,5 @@ export { EmptyState } from './EmptyState';
 export { Skeleton, PageSkeleton } from './Skeleton';
 export { Tooltip } from './Tooltip';
 export { Toaster } from './Toaster';
+export { Switch } from './Switch';
+export { CountUp } from './CountUp';

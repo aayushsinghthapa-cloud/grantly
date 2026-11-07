@@ -1,16 +1,12 @@
 import { useMemo } from 'react';
 import { SCHOLARSHIPS, SCHOLARSHIPS_BY_ID } from '@/data/scholarships';
-import { getMatch, type MatchResult } from '@/lib/match';
+import { getMatch, type MatchResult, type ScholarshipWithMatch } from '@/lib/match';
 import { getReadiness, type Readiness } from '@/lib/readiness';
 import { computeFunding, suggestGapClosers } from '@/lib/funding';
 import { useAppStore } from '@/store/app';
 import type { Scholarship } from '@/types';
 
-export interface ScholarshipWithMatch {
-  scholarship: Scholarship;
-  /** null when the student hasn't created a profile yet. */
-  match: MatchResult | null;
-}
+export type { ScholarshipWithMatch };
 
 /** Every scholarship paired with its match result for the current profile. Recomputed only when the profile changes. */
 export function useMatches(): ScholarshipWithMatch[] {

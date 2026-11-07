@@ -69,7 +69,7 @@ export default function LandingPage() {
 
         {/* Preview card illustrating the Match ring + funding bar motifs */}
         <motion.div {...fade(0.2)} aria-hidden className="relative mx-auto w-full max-w-md">
-          <div className="absolute -inset-6 -z-10 rounded-[2rem] bg-primary-soft/70" />
+          <div className="absolute -inset-3 -z-10 rounded-[2rem] bg-primary-soft/70 sm:-inset-6" />
           <Card className="p-6 shadow-lift">
             <div className="flex items-start gap-4">
               <ProgressRing value={87} size={72} stroke={6} />

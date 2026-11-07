@@ -1,3 +1,5 @@
+import type { Scholarship } from '@/types';
+
 const inrFull = new Intl.NumberFormat('en-IN', {
   style: 'currency',
   currency: 'INR',
@@ -17,4 +19,11 @@ export function formatINRCompact(amount: number): string {
   if (abs >= 1_00_000) return `₹${trim(amount / 1_00_000)}L`;
   if (abs >= 1_000) return `₹${trim(amount / 1_000)}K`;
   return `₹${amount}`;
+}
+
+/** Short suffix for how an award is paid: "/ year", "one-time", "full tuition". */
+export function amountSuffix(type: Scholarship['amountType']): string {
+  if (type === 'annual') return '/ year';
+  if (type === 'one-time') return 'one-time';
+  return 'full tuition';
 }

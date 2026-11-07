@@ -1,5 +1,6 @@
 import { create } from 'zustand';
 import { createJSONStorage, persist } from 'zustand/middleware';
+import { DEMO_PROFILE, buildDemoSeed } from '@/data/demoProfile';
 import type {
   DocType,
   StudentProfile,
@@ -40,6 +41,8 @@ interface AppActions {
   toggleCompare: (id: string) => boolean;
   clearCompare: () => void;
 
+  /** Load the sample student plus a realistic tracker/vault state. */
+  loadDemo: () => void;
   resetAll: () => void;
 }
 
@@ -121,6 +124,7 @@ export const useAppStore = create<AppState>()(
       },
       clearCompare: () => set({ compare: [] }),
 
+      loadDemo: () => set({ ...buildDemoSeed(), profile: DEMO_PROFILE, compare: [] }),
       resetAll: () => set(initialData),
     }),
     {
