@@ -1,5 +1,6 @@
 import { Suspense, useEffect, useRef } from 'react';
 import { Outlet, useLocation } from 'react-router-dom';
+import { motion } from 'framer-motion';
 import { TopNav } from './TopNav';
 import { BottomTabBar } from './BottomTabBar';
 import { Footer } from './Footer';
@@ -33,7 +34,15 @@ export function AppShell() {
       <TopNav />
       <main id="main" ref={mainRef} tabIndex={-1} className="flex-1 pb-24 outline-none md:pb-0">
         <Suspense fallback={<PageSkeleton />}>
-          <Outlet />
+          {/* Gentle per-route fade; MotionConfig reducedMotion="user" turns it off when requested. */}
+          <motion.div
+            key={pathname}
+            initial={{ opacity: 0, y: 8 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.25, ease: [0.22, 1, 0.36, 1] }}
+          >
+            <Outlet />
+          </motion.div>
         </Suspense>
       </main>
       <Footer />

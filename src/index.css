@@ -19,8 +19,8 @@
     --accent-fg: 20 33 61;
     --accent-soft: 253 241 211;
     --danger: 194 65 12; /* #C2410C */
-    --danger-soft: 251 233 225;
-    --success: 21 128 61; /* #15803D */
+    --danger-soft: 253 242 236; /* lightened from #FBE9E1 so danger text on it passes AA (4.7:1) */
+    --success: 22 101 52; /* #166534 — darkened from #15803D: AA on the pale success/primary tints */
     --success-soft: 227 243 232;
     --warning: 146 64 14; /* amber text, AA on warning-soft */
     --warning-soft: 254 243 199;

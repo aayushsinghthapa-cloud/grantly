@@ -9,22 +9,19 @@ import { toast } from '@/store/toast';
 import { useDocumentTitle } from '@/hooks/useDocumentTitle';
 import { formatINR } from '@/lib/format';
 import { cn } from '@/lib/cn';
-import type { Category, EducationLevel, StudentProfile } from '@/types';
+import type { EducationLevel, StudentProfile } from '@/types';
+import {
+  EMPTY_DRAFT,
+  draftFromProfile,
+  profileFromDraft,
+  validateDraft,
+  type DraftErrors,
+  type DraftKey,
+  type ProfileDraft,
+} from '@/lib/profileForm';
 
-/** Form values are strings while editing so inputs can be empty; converted on submit. */
-interface Draft {
-  name: string;
-  gender: StudentProfile['gender'] | '';
-  state: string;
-  level: EducationLevel | '';
-  field: string;
-  percentage: string;
-  familyIncome: string;
-  annualCost: string;
-  interests: Category[];
-}
-type DraftKey = keyof Draft;
-type Errors = Partial<Record<DraftKey, string>>;
+type Draft = ProfileDraft;
+type Errors = DraftErrors;
 
 const STEPS = [
   { title: 'About you', fields: ['name', 'gender', 'state'] },
@@ -32,75 +29,6 @@ const STEPS = [
   { title: 'Finances', fields: ['familyIncome', 'annualCost'] },
   { title: 'Interests', fields: ['interests'] },
 ] as const satisfies readonly { title: string; fields: readonly DraftKey[] }[];
-
-const emptyDraft: Draft = {
-  name: '',
-  gender: '',
-  state: '',
-  level: '',
-  field: '',
-  percentage: '',
-  familyIncome: '',
-  annualCost: '',
-  interests: [],
-};
-
-function fromProfile(p: StudentProfile): Draft {
-  return {
-    ...p,
-    percentage: String(p.percentage),
-    familyIncome: String(p.familyIncome),
-    annualCost: String(p.annualCost),
-  };
-}
-
-function validate(d: Draft, keys: readonly DraftKey[]): Errors {
-  const e: Errors = {};
-  const num = (v: string) => (v.trim() === '' ? NaN : Number(v));
-  for (const k of keys) {
-    switch (k) {
-      case 'name':
-        if (d.name.trim().length < 2) e.name = 'Please enter your name (at least 2 letters).';
-        break;
-      case 'gender':
-        if (!d.gender)
-          e.gender = 'Please choose an option — some scholarships are reserved for women.';
-        break;
-      case 'state':
-        if (!d.state) e.state = 'Please choose your state — some scholarships are state-specific.';
-        break;
-      case 'level':
-        if (!d.level) e.level = 'Please choose your current level of study.';
-        break;
-      case 'field':
-        if (!d.field) e.field = 'Please choose your field of study.';
-        break;
-      case 'percentage': {
-        const n = num(d.percentage);
-        if (Number.isNaN(n) || n < 0 || n > 100)
-          e.percentage = 'Enter a percentage between 0 and 100.';
-        break;
-      }
-      case 'familyIncome': {
-        const n = num(d.familyIncome);
-        if (Number.isNaN(n) || n < 0)
-          e.familyIncome = 'Enter your family’s yearly income in rupees (0 is fine).';
-        break;
-      }
-      case 'annualCost': {
-        const n = num(d.annualCost);
-        if (Number.isNaN(n) || n <= 0)
-          e.annualCost = 'Enter your yearly cost of study — a rough estimate is fine.';
-        break;
-      }
-      case 'interests':
-        if (d.interests.length === 0)
-          e.interests = 'Pick at least one so we can rank scholarships for you.';
-        break;
-    }
-  }
-  return e;
-}
 
 const fieldId = (k: DraftKey) => `ob-${k}`;
 
@@ -110,7 +38,9 @@ export default function OnboardingPage() {
   const setProfile = useAppStore((s) => s.setProfile);
   const loadDemo = useAppStore((s) => s.loadDemo);
 
-  const [draft, setDraft] = useState<Draft>(() => (existing ? fromProfile(existing) : emptyDraft));
+  const [draft, setDraft] = useState<Draft>(() =>
+    existing ? draftFromProfile(existing) : EMPTY_DRAFT,
+  );
   const [step, setStep] = useState(0);
   const [errors, setErrors] = useState<Errors>({});
   const [done, setDone] = useState<StudentProfile | null>(null);
@@ -133,7 +63,7 @@ export default function OnboardingPage() {
 
   const onSubmit = (e: FormEvent) => {
     e.preventDefault();
-    const stepErrors = validate(draft, STEPS[step].fields);
+    const stepErrors = validateDraft(draft, STEPS[step].fields);
     const firstInvalid = (Object.keys(stepErrors) as DraftKey[])[0];
     if (firstInvalid) {
       setErrors(stepErrors);
@@ -144,17 +74,7 @@ export default function OnboardingPage() {
       setStep(step + 1);
       return;
     }
-    const profile: StudentProfile = {
-      name: draft.name.trim(),
-      gender: draft.gender as StudentProfile['gender'],
-      state: draft.state,
-      level: draft.level as EducationLevel,
-      field: draft.field,
-      percentage: Number(draft.percentage),
-      familyIncome: Number(draft.familyIncome),
-      annualCost: Number(draft.annualCost),
-      interests: draft.interests,
-    };
+    const profile = profileFromDraft(draft);
     setProfile(profile);
     setDone(profile);
   };
@@ -162,7 +82,7 @@ export default function OnboardingPage() {
   const onDemo = () => {
     loadDemo();
     const profile = useAppStore.getState().profile!;
-    setDraft(fromProfile(profile));
+    setDraft(draftFromProfile(profile));
     setDone(profile);
     toast({
       title: 'Demo profile loaded',

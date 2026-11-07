@@ -4,8 +4,18 @@ import { ThemeToggle } from './ThemeToggle';
 import { NAV_ITEMS } from './nav-items';
 import { buttonClasses } from '@/components/ui';
 import { cn } from '@/lib/cn';
+import { useAppStore } from '@/store/app';
+
+const initials = (name: string) =>
+  name
+    .split(/\s+/)
+    .map((part) => part[0])
+    .slice(0, 2)
+    .join('')
+    .toUpperCase();
 
 export function TopNav() {
+  const name = useAppStore((s) => s.profile?.name);
   return (
     <header className="sticky top-0 z-40 border-b border-border/80 bg-bg/85 backdrop-blur supports-[backdrop-filter]:bg-bg/70">
       <div className="container-page flex h-16 items-center justify-between gap-4">
@@ -41,12 +51,23 @@ export function TopNav() {
         </nav>
         <div className="flex items-center gap-1">
           <ThemeToggle />
-          <Link
-            to="/onboarding"
-            className={buttonClasses('primary', 'sm', 'hidden sm:inline-flex')}
-          >
-            Find my scholarships
-          </Link>
+          {/* Once a profile exists, the sign-up CTA becomes an avatar link to Profile. */}
+          {name ? (
+            <Link
+              to="/profile"
+              aria-label={`Profile: ${name}`}
+              className="grid h-9 w-9 place-items-center rounded-full bg-primary font-display text-sm font-semibold text-primary-fg"
+            >
+              {initials(name)}
+            </Link>
+          ) : (
+            <Link
+              to="/onboarding"
+              className={buttonClasses('primary', 'sm', 'hidden sm:inline-flex')}
+            >
+              Find my scholarships
+            </Link>
+          )}
         </div>
       </div>
     </header>
