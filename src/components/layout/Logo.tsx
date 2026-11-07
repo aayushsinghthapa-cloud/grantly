@@ -22,10 +22,10 @@ export function Logo({ className }: { className?: string }) {
     <Link
       to="/"
       className={cn('inline-flex items-center gap-2 rounded-lg', className)}
-      aria-label="Grantly home"
+      aria-label="GRANTLY home"
     >
       <LogoMark />
-      <span className="font-display text-xl font-semibold tracking-tight">Grantly</span>
+      <span className="font-display text-lg font-semibold tracking-[0.02em]">GRANTLY</span>
     </Link>
   );
 }

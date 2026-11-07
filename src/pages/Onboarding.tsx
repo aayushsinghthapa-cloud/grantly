@@ -299,7 +299,7 @@ export default function OnboardingPage() {
                   />
                   <p className="flex items-start gap-2 rounded-xl bg-surface-2 p-3 text-xs text-muted sm:col-span-2">
                     <Lock className="mt-0.5 h-3.5 w-3.5 shrink-0" aria-hidden />
-                    Your answers stay on this device. Grantly has no server and never uploads your
+                    Your answers stay on this device. GRANTLY has no server and never uploads your
                     data.
                   </p>
                 </>

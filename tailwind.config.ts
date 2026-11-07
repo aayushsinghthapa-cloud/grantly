@@ -29,8 +29,8 @@ export default {
       },
       fontFamily: {
         // One family. Geist: neutral and precise without being the default every generated page reaches for.
-        display: ['Geist', '-apple-system', 'BlinkMacSystemFont', ...defaultTheme.fontFamily.sans],
-        sans: ['Geist', '-apple-system', 'BlinkMacSystemFont', ...defaultTheme.fontFamily.sans],
+        display: ['Geist Variable', 'Geist', '-apple-system', 'BlinkMacSystemFont', ...defaultTheme.fontFamily.sans],
+        sans: ['Geist Variable', 'Geist', '-apple-system', 'BlinkMacSystemFont', ...defaultTheme.fontFamily.sans],
       },
       borderRadius: { '2xl': '1.125rem', '3xl': '1.75rem' },
       transitionTimingFunction: { apple: 'cubic-bezier(0.23, 1, 0.32, 1)' },

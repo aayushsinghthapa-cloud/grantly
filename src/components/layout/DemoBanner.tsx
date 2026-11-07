@@ -14,8 +14,9 @@ export function DemoBanner() {
         <p className="flex items-center gap-2 text-ink">
           <Sparkles className="h-3.5 w-3.5 shrink-0 text-primary" aria-hidden />
           <span>
-            You’re exploring as <strong className="font-semibold">{DEMO_PROFILE.name}</strong>, a
-            sample student. Everything works; nothing is real.
+            You’re exploring GRANTLY as{' '}
+            <strong className="font-semibold">{DEMO_PROFILE.name}</strong>, a sample student, so
+            every feature is already filled in.
           </span>
         </p>
         <Link to="/onboarding" className="font-semibold text-primary hover:underline">

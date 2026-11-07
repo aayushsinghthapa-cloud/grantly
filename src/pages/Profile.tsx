@@ -1,6 +1,15 @@
 import { useMemo, useState, type FormEvent } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
-import { Check, RotateCcw, ShieldCheck, Trash2, UserRoundPen, Wand2 } from 'lucide-react';
+import {
+  Check,
+  Download,
+  RotateCcw,
+  ShieldCheck,
+  Trash2,
+  Upload,
+  UserRoundPen,
+  Wand2,
+} from 'lucide-react';
 import { PageHeader } from '@/components/layout/PageHeader';
 import { ThemeSegmented } from '@/components/layout/ThemeToggle';
 import {
@@ -15,7 +24,7 @@ import {
 } from '@/components/ui';
 import { CATEGORIES, EDUCATION_LEVELS, FIELDS, INDIAN_STATES } from '@/data/constants';
 import { SCHOLARSHIPS } from '@/data/scholarships';
-import { useAppStore } from '@/store/app';
+import { buildBackup, pickData, useAppStore } from '@/store/app';
 import { toast } from '@/store/toast';
 import { useDocumentTitle } from '@/hooks/useDocumentTitle';
 import { getMatch } from '@/lib/match';
@@ -42,7 +51,7 @@ export default function ProfilePage() {
       <PageHeader
         eyebrow="Profile"
         title="Your profile"
-        description="One profile powers every match score, suggestion and deadline in Grantly."
+        description="One profile powers every match score, suggestion and deadline in GRANTLY."
       />
       <div className="grid grid-cols-1 gap-6 lg:grid-cols-[minmax(0,1fr)_22rem]">
         <div className="min-w-0">
@@ -274,6 +283,7 @@ function ProfileForm({ profile }: { profile: StudentProfile }) {
 function Settings() {
   const resetAll = useAppStore((s) => s.resetAll);
   const loadDemo = useAppStore((s) => s.loadDemo);
+  const importData = useAppStore((s) => s.importData);
   const hasData = useAppStore(
     (s) =>
       s.profile !== null || Object.keys(s.tracker).length > 0 || Object.keys(s.vault).length > 0,
@@ -296,10 +306,77 @@ function Settings() {
           <ShieldCheck className="h-5 w-5 text-primary" aria-hidden /> Your data
         </h2>
         <p className="mt-1 text-sm text-muted">
-          Everything is stored only in this browser. Grantly has no server, no account and no
-          tracking.
+          Everything is stored only in this browser. GRANTLY has no server, no account and no
+          tracking. Export a backup to move it to another device.
         </p>
         <div className="mt-4 flex flex-col gap-2">
+          <Button
+            variant="secondary"
+            leftIcon={<Download className="h-4 w-4" aria-hidden />}
+            onClick={() => {
+              const backup = buildBackup(pickData(useAppStore.getState()));
+              const url = URL.createObjectURL(
+                new Blob([JSON.stringify(backup, null, 2)], { type: 'application/json' }),
+              );
+              const a = Object.assign(document.createElement('a'), {
+                href: url,
+                download: `grantly-backup-${new Date().toISOString().slice(0, 10)}.json`,
+              });
+              document.body.appendChild(a);
+              a.click();
+              a.remove();
+              setTimeout(() => URL.revokeObjectURL(url), 1000);
+              toast({
+                title: 'Backup downloaded',
+                description: 'Import it on any device to pick up where you left off.',
+                tone: 'success',
+              });
+            }}
+          >
+            Export my data
+          </Button>
+          <label
+            className={buttonClasses(
+              'secondary',
+              'md',
+              'cursor-pointer has-[:focus-visible]:ring-2 has-[:focus-visible]:ring-primary has-[:focus-visible]:ring-offset-2',
+            )}
+          >
+            <Upload className="h-4 w-4" aria-hidden />
+            Import a backup
+            <input
+              type="file"
+              accept="application/json,.json"
+              className="sr-only"
+              onChange={async (e) => {
+                const file = e.target.files?.[0];
+                e.target.value = '';
+                if (!file) return;
+                try {
+                  const ok = importData(JSON.parse(await file.text()));
+                  toast(
+                    ok
+                      ? {
+                          title: 'Backup restored',
+                          description: 'Your profile, tracker, vault and notes are back.',
+                          tone: 'success',
+                        }
+                      : {
+                          title: 'That isn’t a GRANTLY backup',
+                          description: 'Nothing was changed.',
+                          tone: 'danger',
+                        },
+                  );
+                } catch {
+                  toast({
+                    title: 'Couldn’t read that file',
+                    description: 'Nothing was changed.',
+                    tone: 'danger',
+                  });
+                }
+              }}
+            />
+          </label>
           <Button
             variant="secondary"
             leftIcon={<Wand2 className="h-4 w-4" aria-hidden />}

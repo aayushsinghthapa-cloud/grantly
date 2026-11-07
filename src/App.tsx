@@ -1,6 +1,7 @@
 import { lazy } from 'react';
 import { createBrowserRouter, RouterProvider } from 'react-router-dom';
 import { AppShell } from '@/components/layout/AppShell';
+import { RouteError } from '@/components/layout/RouteError';
 
 // Route-level code splitting: each page is its own chunk, loaded behind the shell's Suspense skeleton.
 const Landing = lazy(() => import('@/pages/Landing'));
@@ -13,11 +14,13 @@ const Tracker = lazy(() => import('@/pages/Tracker'));
 const Vault = lazy(() => import('@/pages/Vault'));
 const Profile = lazy(() => import('@/pages/Profile'));
 const NotFound = lazy(() => import('@/pages/NotFound'));
+const Requirements = lazy(() => import('@/pages/Requirements'));
 
 const router = createBrowserRouter(
   [
     {
       element: <AppShell />,
+      errorElement: <RouteError />,
       children: [
         { path: '/', element: <Landing /> },
         { path: '/onboarding', element: <Onboarding /> },
@@ -28,6 +31,7 @@ const router = createBrowserRouter(
         { path: '/tracker', element: <Tracker /> },
         { path: '/vault', element: <Vault /> },
         { path: '/profile', element: <Profile /> },
+        { path: '/requirements', element: <Requirements /> },
         { path: '*', element: <NotFound /> },
       ],
     },

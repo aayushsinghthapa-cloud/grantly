@@ -3,6 +3,7 @@ import { motion } from 'framer-motion';
 import { Search } from 'lucide-react';
 import { Logo } from './Logo';
 import { ThemeToggle } from './ThemeToggle';
+import { NotificationBell } from './NotificationBell';
 import { NAV_ITEMS } from './nav-items';
 import { buttonClasses } from '@/components/ui';
 import { cn } from '@/lib/cn';
@@ -73,6 +74,7 @@ export function TopNav() {
               ⌘K
             </kbd>
           </button>
+          <NotificationBell />
           <ThemeToggle />
           {/* Once a profile exists, the sign-up CTA becomes an avatar link to Profile. */}
           {name ? (

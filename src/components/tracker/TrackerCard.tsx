@@ -1,6 +1,8 @@
 import { forwardRef, type HTMLAttributes } from 'react';
 import { Link } from 'react-router-dom';
 import {
+  AlarmClock,
+  NotebookPen,
   ArrowRightLeft,
   FileCheck2,
   GripVertical,
@@ -8,6 +10,7 @@ import {
   MoreHorizontal,
   Trash2,
 } from 'lucide-react';
+import { useAppStore } from '@/store/app';
 import { Menu } from '@/components/ui';
 import { UrgencyChip } from '@/components/scholarship/UrgencyChip';
 import type { TrackedItem } from '@/hooks/useMatches';
@@ -30,6 +33,8 @@ export const TrackerCard = forwardRef<
   TrackerCardProps & HTMLAttributes<HTMLDivElement>
 >(function TrackerCard({ item, onMove, handleProps, dragging, overlay, className, ...rest }, ref) {
   const { scholarship: s, entry, readiness, stepsDone } = item;
+  const reminder = useAppStore((st) => st.reminders[s.id]);
+  const hasNote = useAppStore((st) => Boolean(st.notes[s.id]));
   const done =
     entry.status === 'won' || entry.status === 'rejected' || entry.status === 'submitted';
 
@@ -96,6 +101,21 @@ export const TrackerCard = forwardRef<
           </span>
           <span className="sr-only">steps done</span>
         </span>
+        {reminder !== undefined && (
+          <span
+            className="inline-flex items-center gap-1"
+            title={`Reminder ${reminder} days before`}
+          >
+            <AlarmClock className="h-3.5 w-3.5 text-primary" aria-hidden />
+            <span className="sr-only">Reminder set {reminder} days before the deadline</span>
+          </span>
+        )}
+        {hasNote && (
+          <span className="inline-flex items-center gap-1" title="Has notes">
+            <NotebookPen className="h-3.5 w-3.5" aria-hidden />
+            <span className="sr-only">Has notes</span>
+          </span>
+        )}
       </div>
     </div>
   );

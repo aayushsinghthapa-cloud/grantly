@@ -9,7 +9,7 @@ import {
 } from './steps';
 
 /**
- * 30 FICTIONAL scholarships. Every provider name and amount is made up for demo purposes.
+ * 30 sample scholarships for this build (the brief allows mock data). Provider names and amounts are illustrative.
  * Deadlines are computed relative to today at module load so the demo always looks live:
  * a few close within a week, most fall in the next ~4 months, and one has just closed.
  */

@@ -15,6 +15,7 @@ import {
   CornerDownLeft,
   FileText,
   FolderLock,
+  ListChecks,
   Home,
   KanbanSquare,
   LayoutDashboard,
@@ -70,18 +71,6 @@ export function CommandPalette() {
   const loadDemo = useAppStore((s) => s.loadDemo);
   const theme = useUIStore((s) => s.theme);
   const setTheme = useUIStore((s) => s.setTheme);
-
-  // Global shortcut: ⌘K on macOS, Ctrl+K elsewhere.
-  useEffect(() => {
-    const onKey = (e: globalThis.KeyboardEvent) => {
-      if ((e.metaKey || e.ctrlKey) && e.key.toLowerCase() === 'k') {
-        e.preventDefault();
-        usePaletteStore.getState().toggle();
-      }
-    };
-    window.addEventListener('keydown', onKey);
-    return () => window.removeEventListener('keydown', onKey);
-  }, []);
 
   useEffect(() => {
     const el = dialogRef.current;
@@ -142,6 +131,14 @@ export function CommandPalette() {
         keywords: 'edit reset',
         icon: icon(UserRoundPen),
         run: go('/profile'),
+      },
+      {
+        id: 'p-req',
+        group: 'Go to',
+        label: 'Problem statement & requirements',
+        keywords: 'brief checklist features judges',
+        icon: icon(ListChecks),
+        run: go('/requirements'),
       },
     ];
     const tracked = Object.keys(tracker)

@@ -7,6 +7,7 @@ import { UrgencyChip } from '@/components/scholarship/UrgencyChip';
 import { WhyYouMatch } from '@/components/scholarship/WhyYouMatch';
 import { Roadmap } from '@/components/scholarship/Roadmap';
 import { DocumentReadiness } from '@/components/scholarship/DocumentReadiness';
+import { MyTracking } from '@/components/scholarship/MyTracking';
 import { StatusSelect } from '@/components/scholarship/StatusSelect';
 import { GlossaryTerm } from '@/components/scholarship/GlossaryTerm';
 import { ScholarshipCard } from '@/components/scholarship/ScholarshipCard';
@@ -226,6 +227,7 @@ export default function ScholarshipPage() {
           aria-label="Application checklist"
         >
           <DocumentReadiness scholarship={s} />
+          <MyTracking scholarship={s} />
           <Card className="flex items-start gap-3 p-5">
             <CalendarClock className="mt-0.5 h-5 w-5 shrink-0 text-primary" aria-hidden />
             <p className="text-sm text-muted">

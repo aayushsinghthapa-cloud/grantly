@@ -21,7 +21,7 @@ const dist = join(root, 'dist');
 const SITE = process.env.SITE_URL ?? 'https://aayushsinghthapa-cloud.github.io/grantly';
 
 const STATIC_ROUTES = {
-  '/': 'Find the scholarships you qualify for, understand every rule in plain words, apply with a roadmap and track every deadline. One profile, every scholarship explained.',
+  '/': 'GRANTLY, a unified scholarship discovery and management platform: find the scholarships you qualify for, understand every rule in plain words, apply with a roadmap, and track every deadline.',
   '/onboarding':
     'Build your eligibility profile in four short steps and see every scholarship you qualify for.',
   '/discover':
@@ -35,6 +35,8 @@ const STATIC_ROUTES = {
   '/compare':
     'Compare up to three scholarships side by side, with differences highlighted and the best value marked.',
   '/profile': 'Edit your eligibility profile, choose a theme, and manage your data.',
+  '/requirements':
+    'How GRANTLY meets the problem statement: every requirement (find, understand, apply, track) mapped to working features you can try.',
 };
 
 const scholarshipIds = [
@@ -78,6 +80,10 @@ try {
   const page = await browser.newPage();
   await page.setViewport({ width: 1280, height: 900 });
   await page.emulateMediaFeatures([{ name: 'prefers-reduced-motion', value: 'reduce' }]);
+  // Tells the app it is being pre-rendered, so one-off alerts (daily reminder toast) are skipped.
+  await page.evaluateOnNewDocument(() => {
+    window.__PRERENDER__ = true;
+  });
 
   for (const route of routes) {
     await page.goto(`${base}${route}`, { waitUntil: 'networkidle0' });

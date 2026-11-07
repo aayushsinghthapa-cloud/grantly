@@ -1,15 +1,17 @@
 <div align="center">
 
-# Grantly
+# GRANTLY
 
-### One profile. Every scholarship, explained.
+### Unified Scholarship Discovery & Management Platform
+
+**One profile. Every scholarship, explained.**
 
 A scholarship co-pilot that finds what you qualify for, explains why in plain language,<br/>
 walks you through every application, and shows how much of your year is actually funded.
 
 **[Live demo](https://aayushsinghthapa-cloud.github.io/grantly/)** · **[Source](https://github.com/aayushsinghthapa-cloud/grantly)** · Built for _THE OUTPOST_ by Frontend Arena
 
-[![Deploy](https://github.com/aayushsinghthapa-cloud/grantly/actions/workflows/deploy.yml/badge.svg)](https://github.com/aayushsinghthapa-cloud/grantly/actions/workflows/deploy.yml) ![Tests](https://img.shields.io/badge/tests-73%20passing-1F6F5C) ![Accessibility](https://img.shields.io/badge/axe-0%20violations-1F6F5C) ![License](https://img.shields.io/badge/license-MIT-1F6F5C)
+[![Deploy](https://github.com/aayushsinghthapa-cloud/grantly/actions/workflows/deploy.yml/badge.svg)](https://github.com/aayushsinghthapa-cloud/grantly/actions/workflows/deploy.yml) ![Tests](https://img.shields.io/badge/tests-85%20passing-1F6F5C) ![Accessibility](https://img.shields.io/badge/axe-0%20violations-1F6F5C) ![License](https://img.shields.io/badge/license-MIT-1F6F5C)
 
 ![Grantly landing page: a layered, live preview of the product beside the headline “Scholarships, finally simple.”](docs/screenshots/landing.png)
 
@@ -19,16 +21,38 @@ walks you through every application, and shows how much of your year is actually
 
 ---
 
+## Problem statement
+
+> Students struggle to find relevant scholarships, understand their options, navigate application processes, and keep track of important information. Build a modern digital experience that turns this complex journey into a seamless one.
+
+## Requirements checklist
+
+Every requirement is implemented and live. The same checklist is in the app at [/requirements](https://aayushsinghthapa-cloud.github.io/grantly/requirements).
+
+| Requirement                                | How GRANTLY meets it                                                                                                                                                                                | Try it                                                                                                                                                                   |
+| ------------------------------------------ | --------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------ |
+| ✅ **Find relevant scholarships**          | A match score (0 to 100) on every scholarship from one profile; fuzzy search, 7 filters and 3 sorts; onboarding ends with "We found N scholarships worth ₹X for you"; ⌘K search anywhere            | [Discover](https://aayushsinghthapa-cloud.github.io/grantly/discover) · [Onboarding](https://aayushsinghthapa-cloud.github.io/grantly/onboarding)                        |
+| ✅ **Understand their options**            | "Why you match": every eligibility rule ticked or crossed with a plain-language reason; Compare up to 3 side by side; glossary tooltips; selection odds; similar scholarships                       | [Scholarship](https://aayushsinghthapa-cloud.github.io/grantly/scholarship/future-engineers-merit) · [Compare](https://aayushsinghthapa-cloud.github.io/grantly/compare) |
+| ✅ **Navigate application processes**      | A step-by-step roadmap per scholarship with saved progress; document readiness ("4 of 6 ready") from a Document Vault with expiry dates; "Action needed" for what is due this week                  | [Roadmap](https://aayushsinghthapa-cloud.github.io/grantly/scholarship/future-engineers-merit) · [Vault](https://aayushsinghthapa-cloud.github.io/grantly/vault)         |
+| ✅ **Keep track of important information** | Tracker board (drag-and-drop **and** keyboard menu); Deadline Radar; **deadline reminders and a notification centre**; **private notes** per scholarship; calendar (.ics) export; Funding Gap Meter | [Tracker](https://aayushsinghthapa-cloud.github.io/grantly/tracker) · [Dashboard](https://aayushsinghthapa-cloud.github.io/grantly/dashboard)                            |
+| ✅ **A unified, seamless experience**      | One profile drives every screen; a dashboard that brings funding, deadlines and next actions together; **data export and import**                                                                   | [Dashboard](https://aayushsinghthapa-cloud.github.io/grantly/dashboard) · [Profile](https://aayushsinghthapa-cloud.github.io/grantly/profile)                            |
+| ✅ Modern frontend framework               | React 18, TypeScript (strict), Vite, Tailwind CSS                                                                                                                                                   |                                                                                                                                                                          |
+| ✅ Responsive on all screen sizes          | Checked at 360, 768, 1280 and 1536px; bottom tab bar, filter sheet and stacked tracker on mobile                                                                                                    |                                                                                                                                                                          |
+| ✅ Mock data and local storage             | 30 sample scholarships; everything persists in the browser                                                                                                                                          |                                                                                                                                                                          |
+| ✅ Live deployment and public repo         | [Live site](https://aayushsinghthapa-cloud.github.io/grantly/) on GitHub Pages; CI on every push                                                                                                    |                                                                                                                                                                          |
+
+<p align="center"><img src="docs/screenshots/requirements.png" alt="The in-app requirements checklist: each requirement from the problem statement, the features behind it, and links to try them" width="900" /></p>
+
 ## Judging criteria → evidence
 
-| Criterion                                   | What to look at                                                                                                                                                                                                                                                                                                                                                                                              |
-| ------------------------------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ |
-| **UI/UX & visual quality**                  | One calm design system (neutral greys, a single emerald accent, Geist, pill controls), designed light **and** dark themes, empty, loading and 404 states, and toasts for every action. The landing page is a live, scroll-choreographed tour of the real product ([design notes](#design--motion)).                                                                                                          |
-| **Functionality**                           | 9 working routes and 30 scholarship pages. Fuzzy search with 7 filters and 3 sorts, match scores, compare (up to 3), interactive application roadmaps, a document vault with expiry dates, a drag-and-drop tracker, a deadline radar, the funding gap meter, a ⌘K command palette, `.ics` calendar export, and onboarding with validation. All of it is persisted locally and resettable.                    |
-| **Creativity & innovation**                 | The **Funding Gap Meter** answers "is my year paid for?" and suggests what would close the gap. The landing page's **season scrubber** lets scroll play a student's whole season through the real funding logic. Plain-language "why you match" for every rule.                                                                                                                                              |
-| **Problem-statement alignment**             | Each of the brief's four pain points (finding, understanding, applying, tracking) has a dedicated feature, mapped in the table below and on the landing page itself.                                                                                                                                                                                                                                         |
-| **Code quality & technical implementation** | Strict TypeScript. Business logic is pure and lives in `src/lib/`. **73 tests** in 16 files: unit tests for logic, plus component tests with Testing Library covering form validation and focus, the keyboard tracker menu, the landing form and demo mode. ESLint with jsx-a11y and Prettier. Lazy routes. CI runs typecheck, lint and tests on every push. **Every route is pre-rendered** to static HTML. |
-| **Responsiveness & accessibility**          | **0 axe-core violations** on every route in both themes. No horizontal overflow at 360, 768, 1280 or 1536px. Full keyboard support, including drag-and-drop. Screen-reader announcements, skip link, focus management, reduced-motion support and AA contrast.                                                                                                                                               |
+| Criterion                                   | What to look at                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                |
+| ------------------------------------------- | -------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| **UI/UX & visual quality**                  | One calm design system (neutral greys, a single emerald accent, Geist, pill controls), designed light **and** dark themes, empty, loading and 404 states, and toasts for every action. The landing page is a live, scroll-choreographed tour of the real product ([design notes](#design--motion)).                                                                                                                                                                                                                                                                                                            |
+| **Functionality**                           | 9 working routes and 30 scholarship pages. Fuzzy search with 7 filters and 3 sorts, match scores, compare (up to 3), interactive application roadmaps, a document vault with expiry dates, a drag-and-drop tracker, a deadline radar, the funding gap meter, a ⌘K command palette, `.ics` calendar export, and onboarding with validation. All of it is persisted locally and resettable.                                                                                                                                                                                                                      |
+| **Creativity & innovation**                 | The **Funding Gap Meter** answers "is my year paid for?" and suggests what would close the gap. The landing page's **season scrubber** lets scroll play a student's whole season through the real funding logic. Plain-language "why you match" for every rule.                                                                                                                                                                                                                                                                                                                                                |
+| **Problem-statement alignment**             | Each of the brief's four pain points (finding, understanding, applying, tracking) has a dedicated feature, mapped in the table below and on the landing page itself.                                                                                                                                                                                                                                                                                                                                                                                                                                           |
+| **Code quality & technical implementation** | Strict TypeScript. Business logic is pure and lives in `src/lib/`. **85 tests** in 21 files: unit tests for logic, plus component tests with Testing Library covering form validation and focus, the keyboard tracker menu, reminders and the notification centre, notes, the landing form, demo mode and the error boundary. ESLint with jsx-a11y and Prettier. Lazy routes, a route-level error boundary (including a friendly "GRANTLY was just updated" screen after a redeploy), and a self-hosted font. CI runs typecheck, lint and tests on every push. **Every route is pre-rendered** to static HTML. |
+| **Responsiveness & accessibility**          | **0 axe-core violations** on every route in both themes. No horizontal overflow at 360, 768, 1280 or 1536px. Full keyboard support, including drag-and-drop. Screen-reader announcements, skip link, focus management, reduced-motion support and AA contrast.                                                                                                                                                                                                                                                                                                                                                 |
 
 ## The problem
 
@@ -95,13 +119,15 @@ Implementation notes. The scroll engine is mounted on the landing subtree and de
 
 ## Screenshots
 
-| Discover                                                                            | Scholarship detail                                                                                         |
-| ----------------------------------------------------------------------------------- | ---------------------------------------------------------------------------------------------------------- |
-| ![Discover page with filters and match-scored cards](docs/screenshots/discover.png) | ![Scholarship detail with Why you match, roadmap and document readiness](docs/screenshots/scholarship.png) |
-| **Tracker**                                                                         | **Compare**                                                                                                |
-| ![Kanban tracker board](docs/screenshots/tracker.png)                               | ![Side-by-side comparison table](docs/screenshots/compare.png)                                             |
-| **Onboarding reveal**                                                               | **Dark mode**                                                                                              |
-| ![We found 12 scholarships worth ₹9.7L for you](docs/screenshots/reveal.png)        | ![Dashboard in dark mode](docs/screenshots/dashboard-dark.png)                                             |
+| Discover                                                                                                      | Scholarship detail                                                                                         |
+| ------------------------------------------------------------------------------------------------------------- | ---------------------------------------------------------------------------------------------------------- |
+| ![Discover page with filters and match-scored cards](docs/screenshots/discover.png)                           | ![Scholarship detail with Why you match, roadmap and document readiness](docs/screenshots/scholarship.png) |
+| **Tracker**                                                                                                   | **Compare**                                                                                                |
+| ![Kanban tracker board](docs/screenshots/tracker.png)                                                         | ![Side-by-side comparison table](docs/screenshots/compare.png)                                             |
+| **Notification centre and reminders**                                                                         | **Requirements checklist**                                                                                 |
+| ![Notification centre listing reminders, deadlines and expired documents](docs/screenshots/notifications.png) | ![Requirements checklist page](docs/screenshots/requirements.png)                                          |
+| **Onboarding reveal**                                                                                         | **Dark mode**                                                                                              |
+| ![We found 12 scholarships worth ₹9.7L for you](docs/screenshots/reveal.png)                                  | ![Dashboard in dark mode](docs/screenshots/dashboard-dark.png)                                             |
 
 <p align="center">
   <img src="docs/screenshots/mobile-dashboard.png" width="240" alt="Mobile dashboard" />
@@ -135,7 +161,7 @@ Accessibility was tested, not assumed:
 | Search      | **Fuse.js**                                                                                               | Weighted fuzzy search across names, providers, categories and fields                    |
 | Dates       | **date-fns**                                                                                              | Calendar-day deadline maths                                                             |
 | Icons       | **lucide-react**                                                                                          | Consistent icon set, no emoji used as icons                                             |
-| Quality     | **Vitest** + **Testing Library**, **ESLint** (typescript-eslint, react-hooks, **jsx-a11y**), **Prettier** | 73 tests (logic + component); lint must pass                                            |
+| Quality     | **Vitest** + **Testing Library**, **ESLint** (typescript-eslint, react-hooks, **jsx-a11y**), **Prettier** | 85 tests (logic + component); lint must pass                                            |
 
 No UI kit. Every primitive (Button, Card, Badge, Chip, Input/Select, Dialog/Sheet, Tabs, Menu, Switch, ProgressRing, CommandPalette, Tooltip, EmptyState, Skeleton, CountUp, Toaster) is built from scratch with Tailwind.
 
@@ -144,7 +170,7 @@ No UI kit. Every primitive (Button, Card, Badge, Chip, Input/Select, Dialog/Shee
 ```mermaid
 flowchart LR
   subgraph Data["src/data — static, typed"]
-    S[30 fictional scholarships<br/>deadlines relative to today]
+    S[30 sample scholarships<br/>deadlines relative to today]
     C[constants · glossary · demo seed]
   end
   subgraph Store["src/store — Zustand + persist"]
@@ -226,7 +252,7 @@ npm run dev          # http://localhost:5173
 | `npm run dev`     | Start the dev server                               |
 | `npm run build`   | Type-check and build for production into `dist/`   |
 | `npm run preview` | Serve the production build locally                 |
-| `npm test`        | Run all 73 tests (logic + component)               |
+| `npm test`        | Run all 85 tests (logic + component)               |
 | `npm run lint`    | Run ESLint, including accessibility rules          |
 | `npm run check`   | Typecheck + lint + test + build: the pre-push gate |
 
@@ -246,7 +272,7 @@ No environment variables or backend are needed.
 
 ## Data & privacy
 
-- **All 30 scholarships are fictional.** Providers, amounts and rules were invented for this demo. They are not real organisations or real offers.
+- **Scholarship listings are sample data.** The 30 scholarships, providers and amounts were written for this build, so the demo works without a backend (the brief allows mock data). Swapping in a real feed only means replacing `src/data/scholarships.ts`.
 - **There is no backend.** Everything a student enters stays in their own browser's `localStorage`. **Profile → Reset all data** clears it.
 
 ## License

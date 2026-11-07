@@ -1,16 +1,38 @@
-import { Suspense, useEffect, useRef } from 'react';
+import { Suspense, lazy, useEffect, useRef } from 'react';
 import { Outlet, useLocation } from 'react-router-dom';
 import { motion } from 'framer-motion';
 import { TopNav } from './TopNav';
 import { DemoBanner } from './DemoBanner';
-import { CommandPalette } from '@/components/command/CommandPalette';
+import { usePaletteStore } from '@/store/palette';
 import { BottomTabBar } from './BottomTabBar';
 import { Footer } from './Footer';
 import { PageSkeleton, Toaster } from '@/components/ui';
 import { useThemeSync } from '@/hooks/useTheme';
+import { useDailyReminderAlert } from '@/hooks/useNotifications';
+
+// Loaded on first use: the palette (and its fuzzy-search library) stay out of the initial bundle.
+const CommandPalette = lazy(() =>
+  import('@/components/command/CommandPalette').then((m) => ({ default: m.CommandPalette })),
+);
 
 export function AppShell() {
   useThemeSync();
+  useDailyReminderAlert();
+  const paletteOpen = usePaletteStore((s) => s.open);
+  const paletteLoaded = useRef(false);
+  if (paletteOpen) paletteLoaded.current = true;
+
+  // Global shortcut lives here (not in the lazy palette) so ⌘K / Ctrl+K works before it has loaded.
+  useEffect(() => {
+    const onKey = (e: KeyboardEvent) => {
+      if ((e.metaKey || e.ctrlKey) && e.key.toLowerCase() === 'k') {
+        e.preventDefault();
+        usePaletteStore.getState().toggle();
+      }
+    };
+    window.addEventListener('keydown', onKey);
+    return () => window.removeEventListener('keydown', onKey);
+  }, []);
   const { pathname } = useLocation();
   const mainRef = useRef<HTMLElement>(null);
   const firstRender = useRef(true);
@@ -51,7 +73,11 @@ export function AppShell() {
       <Footer />
       <BottomTabBar />
       <Toaster />
-      <CommandPalette />
+      {paletteLoaded.current && (
+        <Suspense fallback={null}>
+          <CommandPalette />
+        </Suspense>
+      )}
     </div>
   );
 }

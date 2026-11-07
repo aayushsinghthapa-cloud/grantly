@@ -111,7 +111,7 @@ export function SeasonAct() {
               Watch the gap close.
             </h2>
             <p className="mt-3 text-pretty text-[17px] leading-relaxed text-muted">
-              Most tools stop at a list. Grantly answers the real question: is my year paid for?
+              Most tools stop at a list. GRANTLY answers the real question: is my year paid for?
               Ananya’s year costs {formatINR(DEMO_PROFILE.annualCost)}. Scroll through her season.
             </p>
             <div className="relative mt-5 h-14" aria-live="polite">

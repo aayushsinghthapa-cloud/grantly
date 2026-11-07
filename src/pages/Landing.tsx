@@ -19,6 +19,7 @@ import { UrgencyChip } from '@/components/scholarship/UrgencyChip';
 import { SCHOLARSHIPS, getScholarship } from '@/data/scholarships';
 import { DEMO_PROFILE, buildDemoSeed } from '@/data/demoProfile';
 import { STATUS_LABEL } from '@/data/constants';
+import { PROBLEM_STATEMENT, REQUIREMENTS } from '@/data/brief';
 import { useAppStore } from '@/store/app';
 import { toast } from '@/store/toast';
 import { useDocumentTitle } from '@/hooks/useDocumentTitle';
@@ -40,29 +41,13 @@ import '@/styles/scrollcraft.css';
  * signature act and the document wipe; it is destroyed on unmount.
  */
 
-const PAIN_POINTS = [
-  {
-    id: 'finding',
-    problem: 'Finding',
-    answer: 'Every scholarship is scored against your profile, so the right ones rise to the top.',
-  },
-  {
-    id: 'understanding',
-    problem: 'Understanding',
-    answer: 'Each rule is checked in plain words, and up to three options compare side by side.',
-  },
-  {
-    id: 'applying',
-    problem: 'Applying',
-    answer: 'A step-by-step roadmap and a document checklist for every application.',
-  },
-  {
-    id: 'tracking',
-    problem: 'Tracking',
-    answer:
-      'One board, a deadline radar, calendar export, and a meter that shows if your year is paid for.',
-  },
-];
+const PAIN_IDS = ['finding', 'understanding', 'applying', 'tracking'] as const;
+/** The four pain points from the problem statement, worded from the shared requirements checklist. */
+const PAIN_POINTS = REQUIREMENTS.slice(0, 4).map((r, i) => ({
+  id: PAIN_IDS[i],
+  problem: r.need,
+  answer: r.answer,
+}));
 
 export default function LandingPage() {
   useDocumentTitle('');
@@ -114,12 +99,15 @@ export default function LandingPage() {
       <section data-sc-act="flow" className="relative overflow-x-clip">
         <div className="container-page grid min-h-[calc(100svh-3.5rem)] grid-cols-1 items-center gap-12 py-14 lg:grid-cols-[minmax(0,1fr)_minmax(0,1.05fr)] lg:gap-16 lg:py-10">
           <div className="max-w-xl">
+            <p className="mb-5 text-[13px] font-semibold text-primary">
+              GRANTLY · Unified Scholarship Discovery &amp; Management Platform
+            </p>
             <h1 className="text-balance text-[2.75rem] font-semibold leading-[1.02] tracking-[-0.04em] sm:text-6xl lg:text-[4.25rem]">
               Scholarships, <span className="text-muted">finally simple.</span>
             </h1>
             <p className="mt-6 max-w-md text-pretty text-lg leading-relaxed text-muted sm:text-xl">
-              One profile. Grantly finds what you qualify for, explains why, and tracks every
-              deadline.
+              One profile. GRANTLY finds the scholarships you qualify for, explains why, guides each
+              application and tracks every deadline.
             </p>
             <div className="mt-9 flex flex-wrap items-center gap-x-6 gap-y-4">
               <Link
@@ -144,7 +132,7 @@ export default function LandingPage() {
 
           <figure
             className="relative mx-auto h-[22rem] w-full max-w-[34rem] sm:h-[31rem]"
-            aria-label="Live preview of Grantly with a sample student"
+            aria-label="Live preview of GRANTLY with a sample student"
           >
             <div
               data-sc-parallax="-1.2"
@@ -185,16 +173,22 @@ export default function LandingPage() {
             <span className="block text-muted">Rules written for lawyers.</span>
             <span className="block">Deadlines you hear about a day late.</span>
           </h2>
-          <p className="mt-6 max-w-xl text-pretty text-[17px] leading-relaxed text-muted">
-            Students miss money they already qualify for, because finding it, understanding it,
-            applying for it and keeping track of it is a part-time job. Grantly turns that into one
-            calm journey, built around a single profile.
-          </p>
-          <dl className="mt-14 grid grid-cols-1 gap-x-10 gap-y-8 border-t border-border pt-10 sm:grid-cols-2 lg:grid-cols-4">
+          <figure className="mt-8 max-w-2xl">
+            <blockquote className="text-pretty border-l-2 border-primary pl-4 text-[17px] leading-relaxed">
+              {PROBLEM_STATEMENT}
+            </blockquote>
+            <figcaption className="mt-2 pl-4 text-sm text-muted">The problem statement</figcaption>
+          </figure>
+          <h3 className="mt-14 text-xl font-semibold">How GRANTLY solves each part</h3>
+          <dl className="mt-6 grid grid-cols-1 gap-x-10 gap-y-8 border-t border-border pt-8 sm:grid-cols-2 lg:grid-cols-4">
             {PAIN_POINTS.map((p) => (
               <div key={p.id}>
                 <dt>
-                  <a href={`#${p.id}`} className="text-lg font-semibold hover:underline">
+                  <a
+                    href={`#${p.id}`}
+                    className="flex items-center gap-2 text-lg font-semibold hover:underline"
+                  >
+                    <CheckCircle2 className="h-4 w-4 shrink-0 text-primary" aria-hidden />
                     {p.problem}
                   </a>
                 </dt>
@@ -204,6 +198,16 @@ export default function LandingPage() {
               </div>
             ))}
           </dl>
+          <Link
+            to="/requirements"
+            className="group mt-10 inline-flex items-center gap-1 font-medium text-primary"
+          >
+            See the full requirements checklist
+            <ArrowRight
+              className="h-4 w-4 transition-transform duration-200 ease-apple group-hover:translate-x-0.5"
+              aria-hidden
+            />
+          </Link>
         </div>
       </section>
 

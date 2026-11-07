@@ -23,6 +23,10 @@ interface AppData {
   compare: string[];
   /** True while the visitor is exploring with the sample student rather than their own profile. */
   isDemo: boolean;
+  /** Scholarship id → remind this many days before the deadline. */
+  reminders: Record<string, number>;
+  /** Scholarship id → the student's own notes (contacts, login IDs, what's pending). */
+  notes: Record<string, string>;
 }
 
 interface AppActions {
@@ -43,6 +47,12 @@ interface AppActions {
   toggleCompare: (id: string) => boolean;
   clearCompare: () => void;
 
+  /** Remind N days before the deadline, or null to turn the reminder off. */
+  setReminder: (id: string, daysBefore: number | null) => void;
+  setNote: (id: string, note: string) => void;
+  /** Replace all data with a validated backup. Returns false if the file isn't a Grantly backup. */
+  importData: (data: unknown) => boolean;
+
   /** Load the sample student plus a realistic tracker/vault state. */
   loadDemo: () => void;
   resetAll: () => void;
@@ -57,9 +67,70 @@ const initialData: AppData = {
   checklist: {},
   compare: [],
   isDemo: false,
+  reminders: {},
+  notes: {},
 };
 
 /** Three strong demo matches, so Compare has something to show straight away. */
+const DEMO_REMINDERS: Record<string, number> = {
+  'future-engineers-merit': 3,
+  'jigyasa-summer-research': 1,
+};
+const DEMO_NOTES: Record<string, string> = {
+  'future-engineers-merit':
+    'Ask Prof. Iyer for the recommendation by Monday. Bonafide certificate: request at the college office (2 days).',
+};
+
+const DATA_KEYS = [
+  'profile',
+  'tracker',
+  'vault',
+  'checklist',
+  'compare',
+  'isDemo',
+  'reminders',
+  'notes',
+] as const;
+
+/** Only the persisted data fields of the store (no actions). */
+export function pickData(s: AppData): AppData {
+  return Object.fromEntries(DATA_KEYS.map((k) => [k, s[k]])) as unknown as AppData;
+}
+
+const isRecord = (v: unknown): v is Record<string, unknown> =>
+  typeof v === 'object' && v !== null && !Array.isArray(v);
+
+/**
+ * Validate an imported backup. Accepts the file written by "Export my data". Anything that
+ * doesn't look like one is rejected rather than half-applied.
+ */
+export function parseBackup(data: unknown): AppData | null {
+  if (!isRecord(data) || data.app !== 'grantly' || !isRecord(data.data)) return null;
+  const d = data.data;
+  if (d.profile !== null && !isRecord(d.profile)) return null;
+  for (const k of ['tracker', 'vault', 'checklist', 'reminders', 'notes'] as const) {
+    if (d[k] !== undefined && !isRecord(d[k])) return null;
+  }
+  if (d.compare !== undefined && !Array.isArray(d.compare)) return null;
+  return {
+    profile: (d.profile as AppData['profile']) ?? null,
+    tracker: (d.tracker as AppData['tracker']) ?? {},
+    vault: (d.vault as AppData['vault']) ?? {},
+    checklist: (d.checklist as AppData['checklist']) ?? {},
+    compare: ((d.compare as string[]) ?? [])
+      .filter((x) => typeof x === 'string')
+      .slice(0, MAX_COMPARE),
+    isDemo: d.isDemo === true,
+    reminders: (d.reminders as AppData['reminders']) ?? {},
+    notes: (d.notes as AppData['notes']) ?? {},
+  };
+}
+
+/** The JSON document written by "Export my data". */
+export function buildBackup(s: AppData) {
+  return { app: 'grantly', version: 3, exportedAt: new Date().toISOString(), data: pickData(s) };
+}
+
 export const DEMO_COMPARE = ['future-engineers-merit', 'shakti-women-stem', 'kaveri-state-merit'];
 const STORAGE_KEY = 'grantly-data';
 
@@ -132,28 +203,53 @@ export const useAppStore = create<AppState>()(
       },
       clearCompare: () => set({ compare: [] }),
 
+      setReminder: (id, daysBefore) =>
+        set((s) => {
+          const reminders = { ...s.reminders };
+          if (daysBefore === null) delete reminders[id];
+          else reminders[id] = daysBefore;
+          return { reminders };
+        }),
+      setNote: (id, note) =>
+        set((s) => {
+          const notes = { ...s.notes };
+          if (note.trim() === '') delete notes[id];
+          else notes[id] = note;
+          return { notes };
+        }),
+      importData: (data) => {
+        const parsed = parseBackup(data);
+        if (!parsed) return false;
+        set(parsed);
+        return true;
+      },
+
       loadDemo: () =>
-        set({ ...buildDemoSeed(), profile: DEMO_PROFILE, compare: DEMO_COMPARE, isDemo: true }),
+        set({
+          ...buildDemoSeed(),
+          profile: DEMO_PROFILE,
+          compare: DEMO_COMPARE,
+          isDemo: true,
+          reminders: DEMO_REMINDERS,
+          notes: DEMO_NOTES,
+        }),
       resetAll: () => set(initialData),
     }),
     {
       name: STORAGE_KEY,
-      version: 2,
+      version: 3,
       // v1 had no isDemo flag: infer it from whether the saved profile is the sample student.
       migrate: (persisted, version) => {
         const state = persisted as AppData;
         if (version < 2) state.isDemo = state.profile?.name === DEMO_PROFILE.name;
+        if (version < 3) {
+          state.reminders ??= {};
+          state.notes ??= {};
+        }
         return state;
       },
       storage: createJSONStorage(() => localStorage),
-      partialize: ({ profile, tracker, vault, checklist, compare, isDemo }): AppData => ({
-        profile,
-        tracker,
-        vault,
-        checklist,
-        compare,
-        isDemo,
-      }),
+      partialize: (s): AppData => pickData(s),
     },
   ),
 );

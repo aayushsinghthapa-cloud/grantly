@@ -3,6 +3,8 @@ import { createRoot } from 'react-dom/client';
 import { MotionConfig } from 'framer-motion';
 import App from './App';
 import { seedDemoOnFirstVisit } from './store/app';
+// Self-hosted variable font: no third-party request, hashed for long-term caching.
+import '@fontsource-variable/geist';
 import './index.css';
 
 seedDemoOnFirstVisit();
